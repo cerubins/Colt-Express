@@ -7,6 +7,8 @@ public class Platform {
 	
 	private Inventory inv;
 	
+	
+	
 	public Platform()
 	{
 		
