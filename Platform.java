@@ -5,6 +5,8 @@ public class Platform {
 	
 	private ArrayList<Character> people = new ArrayList<Character>();
 	
+	private Inventory inv;
+	
 	public Platform()
 	{
 		
@@ -25,10 +27,43 @@ public class Platform {
 				//getRandomMoneybag * 3
 				break;
 			}
-			case(""):
+			case("lounge"):
 			{
+				//getRandomMoneybag * 3
 				break;
 			}
+			case("coach"):
+			{
+				//getRandomMoneybag
+				break;
+			}
+			case("tea"):
+			{
+				//getRandomMoneybag * 3
+				//getRandomRuby
+				break;
+			}
+			case("rubyTea"):
+			{
+				//getRandomRuby * 3
+				break;
+			}
+			case("bar"):
+			{
+				//getRandomMoneybag
+				//getRandomRuby
+			}
+			case("engine"):
+			{
+				//getLockbox
+				break;
+			}
+			default:
+			{
+				//whoops
+				break;
+			}
+			
 		}
 	
 	}
