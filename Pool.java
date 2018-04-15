@@ -1,4 +1,4 @@
-import java.uil.*;
+import java.util.*;
 import java.io.*;
 public class Pool {
 	
@@ -46,20 +46,44 @@ public class Pool {
 			monies.add(new Bag(500));
 		}
 		
-		Collections.sort(monies);
-		
 		for(int i = 0; i < 6; i++)
 		{
-			rubies.add(new Ruby(500));
+			rubies.add(new Ruby());
 		}
 		
 		for(int i = 0; i<3; i++)
 		{
-			lockboxi.add(new LockBox(1000));
+			lockboxi.add(new LockBox());
 		}
+		
+		Collections.shuffle(monies);
 		
 	}
 	
 	
+	public Bag getRandomBag()
+	{
+		if(monies.size() != 0)
+			return monies.remove(0);
+		else
+			return null;
+	}
+	
+	
+	public Ruby getRuby()
+	{
+		if(rubies.size() != 0)
+			return rubies.remove(0);
+		else
+			return null;
+	}
+	
+	public LockBox getLB()
+	{
+		if(lockboxi.size() != 0)
+			return lockboxi.remove(0);
+		else
+			return null;
+	}
 
 }

@@ -1,8 +1,10 @@
 
 public class Engine extends TrainCar {
 
-	public Engine()
+	public Engine(Pool grab)
 	{
-		super("engine");
+		super("engine", grab);
 	}
+	
+	
 }

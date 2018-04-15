@@ -7,54 +7,43 @@ public class Inventory
 	private ArrayList<LockBox> lockBoxes;
 	public Inventory()
 	{
+		
 		bags = new ArrayList<>();
+		
 		rubies = new ArrayList<>();
+		
 		lockBoxes = new ArrayList<>();
-		makeBags();
-		makeRubies();
-		makeLockBoxes();
+		
 	}
-	public void makeBags()
-	{
-		for (int x = 0; x<8; x++)
-		{
-			bags.add(new Bag(250));
-		}
-		int count = 0;
-		int num = 250;
-		for (int x = 0; x<10; x++)
-		{
-			if (count%2==0)
-			{
-				num+=50;
-			}
-			bags.add(new Bag(num)); 
-			count++;
-		}
-	}
+
 	public ArrayList<Bag> getBags()
 	{
 		return bags;
 	}
-	public void makeRubies()
+	
+	public void addBags(Bag in)
 	{
-		for (int x = 0; x<6; x++)
-		{
-			rubies.add(new Ruby());
-		}
+		bags.add(in);
 	}
+	
 	public ArrayList<Ruby> getRubies()
 	{
 		return rubies;
 	}
-	public void makeLockBoxes()
+	
+	public void addRuby(Ruby in)
 	{
-		lockBoxes.add(new LockBox());
-		lockBoxes.add(new LockBox());
+		rubies.add(in);
 	}
+	
 	public ArrayList<LockBox> getLockBoxes()
 	{
 		return lockBoxes;
+	}
+	
+	public void addLockBox(LockBox in)
+	{
+		lockBoxes.add(in);
 	}
 	
 	
