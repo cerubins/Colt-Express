@@ -5,8 +5,7 @@ public class Platform {
 	
 	private ArrayList<Character> people = new ArrayList<Character>();
 	
-	private Inventory inv;
-	
+	private Inventory inv = new Inventory ();
 	
 	public Platform()
 	{
@@ -16,6 +15,18 @@ public class Platform {
 	public Platform(String in, Pool grab)
 	{
 		initialize(in, grab);
+	}
+	
+	public ArrayList <Character> getCharacterList () {
+		
+		return people;
+		
+	}
+	
+	public Inventory getInventory () {
+		
+		return inv;
+		
 	}
 	
 	public void initialize(String type, Pool grab)
@@ -93,6 +104,9 @@ public class Platform {
 				
 				//getRandomMoneybag
 				//getRandomRuby
+				
+				break;
+				
 			}
 			case("engine"):
 			{
