@@ -38,7 +38,7 @@ public class Train {
 		cars.remove(cars.size()-1);
 	}
 	
-	public ArrayList <Train> getTrain () {
+	public ArrayList <TrainCar> getTrain () {
 		
 		return cars;
 		
