@@ -29,6 +29,19 @@ public class Platform {
 		
 	}
 	
+	public Character removePlayer(String name)
+	{
+		for(int i = 0; i < people.size(); i++)
+		{
+			if(people.get(i).getName().equals(name))
+			{
+				return people.remove(i);
+			}
+		}
+		
+		return null;
+	}
+	
 	public void initialize(String type, Pool grab)
 	{
 		switch(type)
