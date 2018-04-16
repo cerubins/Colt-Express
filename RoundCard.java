@@ -3,17 +3,17 @@ import java.util.ArrayList;
 
 public class RoundCard extends Card {
 	
-	int guiSymbol = 0;
+	int type = 0;
 	
 	int numTurns = 0;
 	
 	boolean isStopCard = false;
 	
-	public RoundCard (String x, int g, int n, boolean s) {
+	public RoundCard (String x, int t, int n, boolean s) {
 		
 		super (x);
 		
-		guiSymbol = g;
+		type = t;
 		
 		numTurns = n;
 		
@@ -21,9 +21,9 @@ public class RoundCard extends Card {
 		
 	}
 	
-	public int getGuiSymbol () {
+	public int getType () {
 		
-		return guiSymbol;
+		return type;
 		
 	}
 	
