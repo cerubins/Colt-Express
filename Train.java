@@ -38,6 +38,12 @@ public class Train {
 		cars.remove(cars.size()-1);
 	}
 	
+	public ArrayList <Train> getTrain () {
+		
+		return cars;
+		
+	}
+	
 	public TrainCar getTrainCar(int place)
 	{
 		if(place < 0 || place >= cars.size())
