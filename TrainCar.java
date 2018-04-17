@@ -4,7 +4,7 @@ import java.util.*;
 public class TrainCar {
 
 	private String type;
-	
+	private int position;
 	private Platform[] levels = new Platform[2];
 	
 	public TrainCar(String in, Pool grab)
@@ -21,6 +21,10 @@ public class TrainCar {
 		levels[1] = new Platform("top", grab);
 	}
 	
+	public int getPosition()
+	{
+		return position;
+	}
 	
 	public Platform getPlatform(int x)
 	{
