@@ -9,17 +9,19 @@ public class Character extends Player{
 	private ArrayList<Ruby> rubies = new ArrayList<Ruby>();
 	private ArrayList<LockBox> lockboxes = new ArrayList<LockBox>();
 	
-	public Character(String n, Platform plat){
-		currentPlat = plat;
+	public Character(String n, TrainCar c, int le){
+		currentCar = c;
+		currentLevel = le;
 		name = n;
+		
 	}
 	
 	public String getName(){
 		return name;
 	}
 	
-	public Platform getCurrentPlatform(){
-		return currentPlat;
+	public TrainCar getCurrentCar(){
+		return currentCar;
 	}
 	
 	public ArrayList<Bag> getBags(){
@@ -30,5 +32,8 @@ public class Character extends Player{
 	}
 	public ArrayList<LockBox> getLockboxes(){
 		return lockboxes;
+	}
+	public int getLevel(){
+		return currentLevel;
 	}
 }
