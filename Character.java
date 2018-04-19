@@ -36,4 +36,17 @@ public class Character extends Player{
 	public int getLevel(){
 		return currentLevel;
 	}
+	
+	public void addBags(Bag b){
+		bags.add(b);
+	{
+		
+	public void addBags(Ruby r){
+		rubies.add(b);
+	{
+		
+	public void addLockbox(LockBox l){
+		lockboxes.add(b);
+	{
+		
 }
