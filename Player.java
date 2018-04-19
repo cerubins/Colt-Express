@@ -4,6 +4,7 @@ public class Player {
 	private int bullets = 6;
 	private Stack<ActionCard> cardDrawPile = new Stack<ActionCard>();
 	
-	public TrainCar currentCar;
+	public int currentCar;
 	public int currentLevel;
+	public  Platform currentPlat;
 }
