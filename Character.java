@@ -9,6 +9,7 @@ public class Character extends Player{
 	private ArrayList<Bag> bags = new ArrayList<Bag>();
 	private ArrayList<Ruby> rubies = new ArrayList<Ruby>();
 	private ArrayList<LockBox> lockboxes = new ArrayList<LockBox>();
+	private ArrayList <ActionCard> cards = new ArrayList <ActionCard> ();
 	
 	public Character(String n, int c, int le){
 		currentCar = c;
@@ -55,6 +56,24 @@ public class Character extends Player{
 		
 	public void addLockbox(LockBox l){
 		lockboxes.add(l);
+	}
+	
+	public void setCards (ArrayList <ActionCard> cs) {
+		
+		cards = cs;
+		
+	}
+	
+	public void clearCards () {
+		
+		cards.clear ();
+		
+	}
+	
+	public ActionCard getCard (int i) {
+		
+		return cards.remove (i);
+		
 	}
 		
 }
