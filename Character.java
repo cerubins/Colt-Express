@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class Character extends Player{
@@ -43,6 +44,13 @@ public class Character extends Player{
 		
 	public void addBags(Ruby r){
 		rubies.add(b);
+	{
+	
+	public Bag removeBag(){
+		Random random = new Random();
+		int index = random.nextInt(player.getBags().size());
+		
+		return bags.get(index);
 	{
 		
 	public void addLockbox(LockBox l){
