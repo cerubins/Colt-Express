@@ -4,7 +4,7 @@ import java.util.Collections;
 
 public class Shuffle {
 	
-	public Card [] shuffle () {
+	public ArrayList <ActionCard> getCards () {
 		
 		ArrayList <ActionCard> a = new ArrayList <ActionCard> ();
 		
@@ -30,11 +30,11 @@ public class Shuffle {
 		
 		Collections.shuffle (a);
 		
-		Card [] toReturn = new Card [6];
+		ArrayList <ActionCard> toReturn = new ArrayList <ActionCard> ();
 		
 		for (int i = 0; i < 6; i++) {
 			
-			toReturn [i] = a.get (i);
+			toReturn.add (a.get (i));
 			
 		}
 		
