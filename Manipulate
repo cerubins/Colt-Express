@@ -45,7 +45,30 @@ import java.util.Random;
 					
 				}
 			}
-			case "changeFloor":
+			case "changeFloor": {
+			
+				int level = player.currentLevel;
+				
+				int changeTo = 0;
+				
+				if (level == 0) {
+					
+					changeTo = 1;
+					
+				}
+				else {
+					
+					changeTo = 0;
+					
+				}
+				
+				tr.getTrainCar(player.getCurrentCar ()).getPlatform (level).removePlayer(player.getName());
+				
+				tr.getTrainCar(player.getCurrentCar ()).getPlatform (changeTo).addPlayer (player);
+				
+				break;
+			
+			}
 			case "loot":
 			case "marshall":
 			}
