@@ -1,0 +1,53 @@
+import java.util.ArrayList;
+import java.util.Random;
+
+	
+	
+	public class Manipulate {
+		
+		public Train tr;
+		
+	public Manipulate(Train t){
+		tr = t;
+	}
+		public void action(ActionCard card, Character player){
+			int car = player.getCurrentCar();
+			switch(card.getWhatItDoes()){
+			case "punch":
+				
+				ArrayList<Character> list = tr.getTrainCar(car).getPlatform(player.getLevel()).getCharacterList();
+				//ASK PLAYER FOR PLAYER TO PUNCH, PUT IN STRING 'VICTIM', ask player for direction to punch, put in string 'direction'
+				String victim = "";
+				String direction = "";
+				for(int x = 0; x < list.size(); x++){
+					if(list.get(x).getName().equals(victim)){
+						Character vic = player.currentPlat.removePlayer(victim);
+						
+						if(player.getName().equals("cheyenne")){
+							player.addBags(vic.removeBag());
+						}
+						
+						if(direction.equals("right")){
+							tr.getTrainCar(player.getCurrentCar()+1).getPlatform(player.currentLevel).addPlayer(vic);
+						}
+						else if(direction.equals("left")){
+							tr.getTrainCar(player.getCurrentCar()-1).getPlatform(player.currentLevel).addPlayer(vic);
+						}
+					}
+				}
+			case "shoot":
+				if(player.getName().equals("django")){
+					
+				}
+			case "move":{
+				String way = "";
+				if(way.equals("up")){
+					
+				}
+			}
+			case "changeFloor":
+			case "loot":
+			case "marshall":
+			}
+		}
+	}
