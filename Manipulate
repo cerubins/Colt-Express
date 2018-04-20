@@ -70,7 +70,71 @@ import java.util.Random;
 			
 			}
 			case "loot":
-			case "marshall":
+			case "marshall": {
+			
+				int currentLoc = 0;
+				
+				int level = 0;
+				
+				for (int i = 0; i < tr.getTrain().size(); i++) {
+										
+					ArrayList<Character> c0 = tr.getTrainCar(i).getPlatform(0).getCharacterList();
+										
+					ArrayList<Character> c1 = tr.getTrainCar(i).getPlatform(1).getCharacterList();
+					
+					for (int j = 0; j < c0.size (); j++) {
+						
+						if (c0.get (j).equals ("marshall")) {
+							
+							currentLoc = i;
+							
+							level = 0;
+							
+						}
+						
+					}
+					
+					for (int j = 0; j < c1.size (); j++) {
+						
+						if (c1.get (j).equals ("marshall")) {
+							
+							currentLoc = i;
+							
+							level = 1;
+							
+						}
+						
+					}
+					
+					
+				}
+				
+				Character marshall = tr.getTrainCar (currentLoc).getPlatform (level).removePlayer ("marshall");
+				
+				// ASK PLAYER FOR DIRECTION TO MOVE MARSHALL, PUT "LEFT" OR "RIGHT" (FORWARD OR BACKWARD RESPECTIVELY) (LOWERCASE) IN STRING d
+				
+				String d = "";
+				
+				if (d.equals("left") && currentLoc - 1 >= 0) {
+					
+					tr.getTrainCar (currentLoc - 1).getPlatform(level).addPlayer(marshall);
+					
+				}
+				else if (d.equals("right") && currentLoc + 1 >= 0 && currentLoc + 1 <= 4) {
+					
+					tr.getTrainCar (currentLoc + 1).getPlatform(level).addPlayer(marshall);
+					
+				}
+				else {
+					
+					tr.getTrainCar (currentLoc).getPlatform (level).addPlayer(marshall);
+					
+				}
+				
+				break;
+			
+			
+			}
 			}
 		}
 	}
