@@ -12,6 +12,12 @@ public class Platform {
 		
 	}
 	
+	public void addPlayer (Character c) {
+		
+		people.add (c);
+		
+	}
+	
 	public Platform(String in, Pool grab)
 	{
 		initialize(in, grab);
