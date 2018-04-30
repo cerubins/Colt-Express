@@ -15,10 +15,16 @@ public class Round {
 	private TreeMap <Character, ArrayList <ActionCard>> hands = new TreeMap <Character, ArrayList <ActionCard>> ();
 	
 	private TreeMap <Character, ArrayList <ActionCard>> bulletCards = new TreeMap <Character, ArrayList <ActionCard>> ();
-	
+		
 	private TreeMap <Character, ArrayList <ActionCard>> discard = new TreeMap <Character, ArrayList <ActionCard>> ();
 	
-	public Round (Train t, ArrayList <Character> c) {
+	private TreeMap <Character, ArrayList <ActionCard>> draw = new TreeMap <Character, ArrayList <ActionCard>> ();
+	
+	private RoundCard roundCard;
+	
+	private String [] roundCardWhatItDoes;
+	
+	public Round (Train t, ArrayList <Character> c) { // NEED TO PASS EVERYTHING IN HERE!!
 		
 		tr = t;
 		
@@ -26,136 +32,67 @@ public class Round {
 		
 	}
 	
-	public void start () {
+	public void First () { // PUTS 6 CARDS IN HAND AND 4 IN DRAW PILE, PUT 6 BULLET CARDS FOR EACH CHARACTER (INCLUDING MARSHALL, WHO IS A CHARACTER BUT NOT PLAYABLE)
+		
+		RoundCardSelector rs = new RoundCardSelector ();
+		
+		roundCard = rs.select ();
 		
 		for (int i = 0; i < cList.size (); i++) {
 			
-			Shuffle cards = new Shuffle ();
+			Shuffle s = new Shuffle ();
 			
-			discard.put (cList.get (i), cards.getAllCards ());
+			draw.put (cList.get(i), s.getAllCards());
 			
 		}
 		
-	}
-	
-	public void assignHands (int x) {
+		for (int i = 0; i < cList.size (); i++) {
+			
+			ArrayList <ActionCard> topSix = getTopSixFirst (draw.get (cList.get (i)));
+			
+			hands.put (cList.get (i), topSix);
+			
+		}
 		
-		if (x == 1) {
+		for (int i = 0; i < cList.size (); i++) {
 			
-			ArrayList <Character> keys = new ArrayList <Character> (discard.keySet());
+			ArrayList <ActionCard> temp = new ArrayList <ActionCard> ();
 			
-			for (int i = 0; i < keys.size (); i++) {
+			for (int j = 0; j < 6; j++) {
 				
-				ArrayList <ActionCard> topSix = topSix (discard.get (keys.get (i)));
-				
-				hands.put (keys.get (i), topSix);
+				temp.add (new ActionCard ("bullet"));
 				
 			}
 			
-		}
-		else {
-			
-			
-			
-			
-			
-			
-			ArrayList <Character> keys = new ArrayList <Character> (hands.keySet ());
-			
-			for (int i = 0; i < keys.size (); i++) {
-				
-				ArrayList <ActionCard> cHand = hands.get (keys.get (i));
-				
-				for (int j = cHand.size () - 1; j >= 0; j--) {
-					
-					if (cHand.get (j).getWhatItDoes().equals ("bullet")) {
-						
-						cHand.remove (i);
-						
-					}
-					
-				}
-				
-				ArrayList <ActionCard> toDiscard = discardChoices (cHand);
-				
-				for (int j = 0; j < toDiscard.size (); j++) {
-					
-					for (int k = cHand.size () - 1; k >= 0; k--) {
-						
-						if (cHand.get (k).getWhatItDoes().equals(toDiscard.get(j).getWhatItDoes())) {
-							
-							ActionCard temp = cHand.remove (k);
-							
-							discard.get (keys.get(i)).add (temp);
-							
-							break;
-							
-						}
-						
-					}
-					
-				}
-				
-				ArrayList <ActionCard> possibleHandChoices = discard.get (keys.get (i));
-				
-				ArrayList <ActionCard> chosenHandChoices = new ArrayList <ActionCard> (0);
-				
-				for (int j = 0; j < 6 - cHand.size (); j++) {
-					
-					chooseHandCard (possibleHandChoices);
-					
-				}
-				
-				
-			}
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+			bulletCards.put (cList.get (i), temp);
 			
 		}
 		
 	}
 	
-	private ActionCard chooseHandCard (ArrayList <ActionCard> c) {
+	private ArrayList <ActionCard> getTopSixFirst (ArrayList <ActionCard> c) {
 		
-		// GIVE PLAYER CHOICE FOR WHICH ACTIONCARD TO CHOOSE OUT OF POSSIBLE ACTIONCARDS
+		ArrayList <ActionCard> toReturn = new ArrayList <ActionCard> ();
 		
-		ActionCard chosen = c.get((int)(Math.random () * c.size ())); // RANDOM CARD ASSIGNMENT FOR NOW
-		
-		// NEED TO REMOVE CHOSEN CARD FROM POSSIBLE CHOICES HERE
-		
-		return chosen;
-		
-	}
-	
-	private ArrayList <ActionCard> discardChoices (ArrayList <ActionCard> hand) {
-		
-		ArrayList <ActionCard> toDiscard = new ArrayList <ActionCard> ();
-		
-		// GIVE PLAYER LIST OF CARDS POSSIBLE TO DISCARD AND PUT THE CHOSEN ONES INTO TODISCARD
-		
-		return toDiscard;
-		
-	}
-	
-	private ArrayList <ActionCard> topSix (ArrayList <ActionCard> c) {
-		
-		ArrayList <ActionCard> t = new ArrayList <ActionCard> ();
-		
-		for (int i = 0; i < c.size (); i++) {
+		for (int i = 0; i < 6; i++) {
 			
-			t.add (c.get (i));
+			toReturn.add (c.remove (i));
 			
 		}
 		
-		return t;
+		return toReturn;
+		
+	}
+	
+	public void playRound () {
+		
+		
+		
+	}
+	
+	public void startOfRound () {
+		
+		
 		
 	}
 	
