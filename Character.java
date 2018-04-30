@@ -9,12 +9,30 @@ public class Character extends Player{
 	private ArrayList<Bag> bags = new ArrayList<Bag>();
 	private ArrayList<Ruby> rubies = new ArrayList<Ruby>();
 	private ArrayList<LockBox> lockboxes = new ArrayList<LockBox>();
-	private ArrayList <ActionCard> cards = new ArrayList <ActionCard> ();
+	private ArrayList <ActionCard> cardInventory = new ArrayList <ActionCard> ();
 	
 	public Character(String n, int c, int le){
 		currentCar = c;
 		currentLevel = le;
 		name = n;
+		
+		for (int i = 0; i < 6; i++) {
+			
+			cardInventory.add(new ActionCard ("bullet"));
+			
+		}
+		
+	}
+	
+	public ActionCard getBulletCard () {
+		
+		if (cardInventory.size () > 0) {
+			
+			return cardInventory.remove (0);
+			
+		}
+		
+		return null;
 		
 	}
 	
@@ -25,6 +43,21 @@ public class Character extends Player{
 	public int getCurrentCar(){
 		return currentCar;
 	}
+	
+	public void updateCurrentCar (int x) {
+		
+		currentCar = x;
+		
+	}
+	
+	public void addBags(Bag b){
+		bags.add(b);
+	}
+		
+	public void addBags(Ruby r){
+		rubies.add(r);
+	}
+	
 	
 	public ArrayList<Bag> getBags(){
 		return bags;
@@ -39,12 +72,10 @@ public class Character extends Player{
 		return currentLevel;
 	}
 	
-	public void addBags(Bag b){
-		bags.add(b);
-	}
+	public void updateLevel (int x) {
 		
-	public void addBags(Ruby r){
-		rubies.add(r);
+		currentLevel = x;
+		
 	}
 	
 	public Bag removeBag(){
@@ -53,27 +84,6 @@ public class Character extends Player{
 		
 		return bags.get(index);
 	}
-		
-	public void addLockbox(LockBox l){
-		lockboxes.add(l);
-	}
 	
-	public void setCards (ArrayList <ActionCard> cs) {
-		
-		cards = cs;
-		
-	}
 	
-	public void clearCards () {
-		
-		cards.clear ();
-		
-	}
-	
-	public ActionCard getCard (int i) {
-		
-		return cards.remove (i);
-		
-	}
-		
 }

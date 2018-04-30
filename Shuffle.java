@@ -4,7 +4,7 @@ import java.util.Collections;
 
 public class Shuffle {
 	
-	public ArrayList <ActionCard> getCards () {
+	public ArrayList <ActionCard> getAllCards () {
 		
 		ArrayList <ActionCard> a = new ArrayList <ActionCard> ();
 		
@@ -32,7 +32,7 @@ public class Shuffle {
 		
 		ArrayList <ActionCard> toReturn = new ArrayList <ActionCard> ();
 		
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 10; i++) { // NEED TO CHECK IF CHARACTER HAS BULLET CARDS
 			
 			toReturn.add (a.get (i));
 			

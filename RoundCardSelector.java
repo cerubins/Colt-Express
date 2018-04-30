@@ -4,7 +4,7 @@ import java.util.Collections;
 
 public class RoundCardSelector {
 
-	public Card select () {
+	public RoundCard select () {
 		
 		ArrayList <RoundCard> a = new ArrayList <RoundCard> ();
 		
