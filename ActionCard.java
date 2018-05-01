@@ -1,7 +1,8 @@
 
+
 public class ActionCard extends Card {
 
-	private String upOrDown = "";
+	boolean up = true;
 	
 	private Character character = null;
 	
@@ -11,15 +12,15 @@ public class ActionCard extends Card {
 		
 	}
 	
-	public void setUD (String ud) {
+	public void setUp (boolean b) {
 		
-		upOrDown = ud;
+		up = b;
 		
 	}
 	
-	public String getUD () {
+	public boolean isUp () {
 		
-		return upOrDown;
+		return up;
 		
 	}
 	
