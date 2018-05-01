@@ -86,8 +86,53 @@ public class Round {
 	
 	public void playRound () {
 		
+		//1 is up, 0 is down, 2 reverse
+		
+		int numTurns = roundCard.getNumTurns();
+		
+		String key = roundCard.getTurns();
+		
+		Queue<ActionCard> reel = new Queue<ActionCard>();
+		
+		for(int i = 0; i < numTurns(); i++)
+		{
+			
+			boolean up = false;
+			
+			key.getChar
+			
+			for(int j = 0; j < cList.size(); j++)
+			{
+				//prompt player
+				
+				ActionCard toPut = new ActionCard();
+				
+				for(int k = 0; k < hands.get( cList.get(j) ).size(); k++)
+				{
+					
+					if(hands.get( cList.get(j) ).get(k).getWhatItDoes().equals("prompted response"))//FIX!!!
+					{
+						
+						toPut = hands.get( cList.get(j) ).remove(k);
+						
+						break;
+					}
+					
+				}
+				
+				reel.add(toPut);
+				
+			}
+			
+		}
 		
 		
+		
+	}
+	
+	public ArrayList<boolean> setIndex(String key)
+	{
+		//WORK ON
 	}
 	
 	public void startOfRound () {
