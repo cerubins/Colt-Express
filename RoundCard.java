@@ -3,13 +3,13 @@ import java.util.ArrayList;
 
 public class RoundCard extends Card {
 	
-	private int turns = 0;
+	private String turns = "";
 	
 	private int numTurns = 0;
 	
 	private boolean isStopCard = false;
 	
-	public RoundCard (String x, int t, int n, boolean s) {
+	public RoundCard (String x, String t, int n, boolean s) {
 		
 		super (x);
 		
@@ -21,7 +21,7 @@ public class RoundCard extends Card {
 		
 	}
 	
-	public int getTurns () {
+	public String getTurns () {
 		
 		return turns;
 		
