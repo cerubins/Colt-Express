@@ -12,6 +12,14 @@ public class ActionCard extends Card {
 		
 	}
 	
+	public ActionCard (String x, Character c) {
+		
+		super (x);
+		
+		character = c;
+		
+	}
+	
 	public void setUp (boolean b) {
 		
 		up = b;
