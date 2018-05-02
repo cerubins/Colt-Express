@@ -174,68 +174,123 @@ public class Round {
 		} break;	
 		case "shoot": {
 			
-			TreeMap <Integer, ArrayList <Character>> possibleShoots = new TreeMap <Integer, ArrayList <Character>> ();
-			
-			if (player.getName ().equals ("django")) {
+			if (bulletCards.get (player).size () > 0) {
 				
+				TreeMap <Integer, ArrayList <Character>> possibleShoots = new TreeMap <Integer, ArrayList <Character>> ();
 				
-				
-			}
-			
-			if (player.getName ().equals ("tuco")) {
-				
-				
-				
-			}
-			
-			if (player.currentLevel == 0) {
-				
-				if (player.currentCar - 1 >= 0 && tr.getTrainCar(player.currentCar - 1).getPlatform(player.currentLevel).getCharacterList().size () > 0) {
+				if (player.getName ().equals ("tuco")) {
 					
-					possibleShoots.put (player.currentCar - 1, tr.getTrainCar(player.currentCar - 1).getPlatform(player.currentLevel).getCharacterList());
-				
+					int shootLevel = 0;
+					
+					if (player.currentLevel == 0) {
+						
+						shootLevel = 1;
+						
+					}
+					
+					possibleShoots.put (player.currentCar, tr.getTrainCar(player.currentCar).getPlatform(shootLevel).getCharacterList());
+					
 				}
 				
-				if (player.currentCar + 1 >= 0 && player.currentCar + 1 <= 4 && tr.getTrainCar(player.currentCar + 1).getPlatform(player.currentLevel).getCharacterList().size () > 0) {
+				if (player.currentLevel == 0) {
 					
-					possibleShoots.put (player.currentCar + 1, tr.getTrainCar(player.currentCar + 1).getPlatform(player.currentLevel).getCharacterList());
-				
-				}
-				
-			}
-			
-			if (player.currentLevel == 1) {
-				
-				for (int i = player.currentCar; i <= 4; i++) {
+					if (player.currentCar - 1 >= 0 && tr.getTrainCar(player.currentCar - 1).getPlatform(player.currentLevel).getCharacterList().size () > 0) {
+						
+						possibleShoots.put (player.currentCar - 1, tr.getTrainCar(player.currentCar - 1).getPlatform(player.currentLevel).getCharacterList());
 					
-					if (tr.getTrainCar(i).getPlatform(player.currentLevel).getCharacterList().size () > 0) {
+					}
+					
+					if (player.currentCar + 1 >= 0 && player.currentCar + 1 <= 4 && tr.getTrainCar(player.currentCar + 1).getPlatform(player.currentLevel).getCharacterList().size () > 0) {
 						
-						possibleShoots.put (i, tr.getTrainCar(i).getPlatform(player.currentLevel).getCharacterList());
-						
-						break;
+						possibleShoots.put (player.currentCar + 1, tr.getTrainCar(player.currentCar + 1).getPlatform(player.currentLevel).getCharacterList());
+					
 					}
 					
 				}
 				
-				for (int i = 0; i < player.currentCar; i++) {
+				if (player.currentLevel == 1) {
 					
-					if (tr.getTrainCar(i).getPlatform(player.currentLevel).getCharacterList().size () > 0) {
+					for (int i = player.currentCar + 1; i <= 4; i++) {
 						
-						possibleShoots.put (i, tr.getTrainCar(i).getPlatform(player.currentLevel).getCharacterList());
+						if (tr.getTrainCar(i).getPlatform(player.currentLevel).getCharacterList().size () > 0) {
+							
+							possibleShoots.put (i, tr.getTrainCar(i).getPlatform(player.currentLevel).getCharacterList());
+							
+							break;
+						}
 						
-						break;
+					}
+					
+					for (int i = player.currentCar - 1; i >= 0; i--) {
+						
+						if (tr.getTrainCar(i).getPlatform(player.currentLevel).getCharacterList().size () > 0) {
+							
+							possibleShoots.put (i, tr.getTrainCar(i).getPlatform(player.currentLevel).getCharacterList());
+							
+							break;
+							
+						}
 						
 					}
 					
 				}
 				
+				Character victim = new Character ("", car, car); // GIVE OPTIONS ON WHOM TO SHOOT BASED ON MAP POSSIBLE SHOOTS, SELECT CHARACTER TO SHOOT AND POINT SELECTED AT IT (INITIALIZED ONLY TO PREVENT ERROR FOR NOW, DOESN'T ACTUALLY WORK)
+				
+				hands.get (victim).add (bulletCards.get (player).remove (0));
+				
+				if (player.getName ().equals ("django")) {
+					
+					String d = "";
+					
+					if (victim.currentCar < player.currentCar) {
+						
+						d = "1 left";
+						
+					}
+					else {
+						
+						d = "1 right";
+						
+					}
+					
+					switch (d) {
+					
+						case "1 left": {
+							
+							if (victim.currentCar - 1 >= 0) {
+								
+								tr.getTrainCar(victim.currentCar).getPlatform(victim.currentLevel).removePlayer(victim.getName ());
+								
+								tr.getTrainCar(victim.currentCar - 1).getPlatform (victim.currentLevel).addPlayer(victim);
+								
+								victim.updateCurrentCar (victim.currentCar - 1);
+								
+							}
+							
+							
+						} break;
+						
+						case "1 right": {
+							
+							if (victim.currentCar + 1 <= 4) {
+								
+								tr.getTrainCar(victim.currentCar).getPlatform(victim.currentLevel).removePlayer(victim.getName ());
+								
+								tr.getTrainCar(victim.currentCar + 1).getPlatform (victim.currentLevel).addPlayer(victim);
+								
+								victim.updateCurrentCar (victim.currentCar + 1);
+								
+							}
+							
+						}
+					
+					}
+					
+				}
+				
 			}
-			
-			Character selected = new Character ("", car, car); // GIVE OPTIONS ON WHOM TO SHOOT BASED ON MAP POSSIBLE SHOOTS, SELECT CHARACTER TO SHOOT AND POINT SELECTED AT IT (INITIALIZED ONLY TO PREVENT ERROR FOR NOW, DOESN'T ACTUALLY WORK)
-			
-			hands.get (selected).add ();
-			
-			
+				
 		} break;
 		case "move":{ // NEED TO FIX BY GIVING OPTION FOR 3 MOVE
 			String d = "";
