@@ -45,6 +45,24 @@ public class Inventory
 	{
 		lockBoxes.add(in);
 	}
-	
+	public void removeInventory(InventoryTwo inv, Character player)
+	{
+		String str = inv.getType();
+		switch(str)
+		{
+		case("bag"):
+		{
+			player.addBags(bags.remove(0));
+		}break;
+		case("ruby"):
+		{
+			player.addRubies(rubies.remove(0));
+		}break;
+		case("lockBox"):
+		{
+			player.addLockBoxes(lockBoxes.remove(0));
+		}break;
+		}
+	}
 	
 }
