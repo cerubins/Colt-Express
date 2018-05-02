@@ -396,6 +396,26 @@ public class Round {
 			
 		} break;
 		case "loot":
+		{
+			ArrayList<InventoryTwo> list = new ArrayList<>();
+			for (int x = 0; x<tr.getTrainCar(car).getPlatform(player.getLevel()).getInventory().getBags().size(); x++)
+			{
+				list.add(tr.getTrainCar(car).getPlatform(player.getLevel()).getInventory().getBags().get(x));
+			}
+			for (int x = 0; x<tr.getTrainCar(car).getPlatform(player.getLevel()).getInventory().getRubies().size(); x++)
+			{
+				list.add(tr.getTrainCar(car).getPlatform(player.getLevel()).getInventory().getRubies().get(x));
+			}
+			for (int x = 0; x<tr.getTrainCar(car).getPlatform(player.getLevel()).getInventory().getLockBoxes().size(); x++)
+			{
+				list.add(tr.getTrainCar(car).getPlatform(player.getLevel()).getInventory().getLockBoxes().get(x));
+			}
+			//ADDS ALL INVENTORY TO ARRAYLIST OF INVENTORY 
+			//SHOW OPTIONS
+			InventoryTwo selected = new InventoryTwo("");
+			tr.getTrainCar(car).getPlatform(player.getLevel()).getInventory().removeInventory(selected, player);
+			
+		}break; 
 		case "marshall": { // NEED TO FIX BY CHECKING IF OTHER CHARACTERS IN SAME ROOM AS MARSHALL AND MOVING THEM TO THE ROOF
 			
 			int currentLoc = 0;
@@ -406,31 +426,21 @@ public class Round {
 									
 				ArrayList<Character> c0 = tr.getTrainCar(i).getPlatform(0).getCharacterList();
 									
-				ArrayList<Character> c1 = tr.getTrainCar(i).getPlatform(1).getCharacterList();
-				
 				for (int j = 0; j < c0.size (); j++) {
 					
-					if (c0.get (j).equals ("marshall")) {
+					if (c0.get (j).getName().equals ("marshall")) {
 						
 						currentLoc = i;
-						
+	
 						level = 0;
 						
+						break;
 					}
 					
 				}
 				
-				for (int j = 0; j < c1.size (); j++) {
+			
 					
-					if (c1.get (j).equals ("marshall")) {
-						
-						currentLoc = i;
-						
-						level = 1;
-						
-					}
-					
-				}
 				
 				
 			}
@@ -446,6 +456,7 @@ public class Round {
 				tr.getTrainCar (currentLoc - 1).getPlatform(level).addPlayer(marshall);
 				
 				marshall.updateCurrentCar (currentLoc - 1);
+				currentLoc= currentLoc-1;
 				
 			}
 			else if (d.equals("right") && currentLoc + 1 >= 0 && currentLoc + 1 <= 4) {
@@ -453,14 +464,20 @@ public class Round {
 				tr.getTrainCar (currentLoc + 1).getPlatform(level).addPlayer(marshall);
 				
 				marshall.updateCurrentCar (currentLoc + 1);
+				currentLoc= currentLoc+1;
 				
 			}
-			else {
-				
-				tr.getTrainCar (currentLoc).getPlatform (level).addPlayer(marshall);
-				
-				marshall.updateCurrentCar (currentLoc);
-				
+			if(tr.getTrainCar(currentLoc).getPlatform(level).getCharacterList().size()>1)
+			{
+				for (int x = 0; x<tr.getTrainCar(currentLoc).getPlatform(level).getCharacterList().size(); x++)
+				{
+					if (!tr.getTrainCar(currentLoc).getPlatform(level).getCharacterList().get(x).getName().equals("marshall"))
+					{
+						tr.getTrainCar(currentLoc).getPlatform(level).getCharacterList().get(x).updateLevel(level+1);
+						//FOLLOWING LINE IS WRONG. I WILL FIX TONIGHT
+						hands.get(tr.getTrainCar(currentLoc).getPlatform(level).getCharacterList().get(x)).add(new ActionCard("bullet",marshall));
+					}
+				}
 			}
 			
 		} break;
