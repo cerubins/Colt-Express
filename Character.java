@@ -77,8 +77,12 @@ public class Character extends Player{
 		bags.add(b);
 	}
 		
-	public void addBags(Ruby r){
+	public void addRubies(Ruby r){
 		rubies.add(r);
+	}
+	public void addLockBoxes(LockBox L)
+	{
+		lockboxes.add(L);
 	}
 	
 	
@@ -104,8 +108,20 @@ public class Character extends Player{
 	public Bag removeBag(){
 		Random random = new Random();
 		int index = random.nextInt(bags.size());
-		
+		bags.remove(index);
 		return bags.get(index);
+	}
+	public Ruby removeRuby()
+	{
+		int index = (int)(Math.random()*bags.size());
+		rubies.remove(index);
+		return rubies.get(index);
+	}
+	public LockBox removeLockBox()
+	{
+		int index = (int)(Math.random()*bags.size());
+		lockboxes.remove(index);
+		return lockboxes.get(index);
 	}
 	
 	public void update(){
