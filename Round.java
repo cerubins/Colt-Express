@@ -474,7 +474,6 @@ public class Round {
 					if (!tr.getTrainCar(currentLoc).getPlatform(level).getCharacterList().get(x).getName().equals("marshall"))
 					{
 						tr.getTrainCar(currentLoc).getPlatform(level).getCharacterList().get(x).updateLevel(level+1);
-						//FOLLOWING LINE IS WRONG. I WILL FIX TONIGHT
 						hands.get(tr.getTrainCar(currentLoc).getPlatform(level).getCharacterList().get(x)).add(new ActionCard("bullet",marshall));
 					}
 				}
