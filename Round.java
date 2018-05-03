@@ -108,7 +108,7 @@ public class Round {
 			
 			for(int j = 0; j < cList.size(); j++)
 			{
-				//prompt player
+				//prompt player and prompt them in reverse order if "2"
 				
 				
 				if(!(read.get(i).equals("2")))
