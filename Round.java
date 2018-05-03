@@ -90,37 +90,75 @@ public class Round {
 		
 		int numTurns = roundCard.getNumTurns();
 		
-		String key = roundCard.getTurns();
+		ArrayList<String> read = setIndex(roundCard.getTurns());
 		
 		Queue<ActionCard> reel = new Queue<ActionCard>();
+		
+		String desc = roundCard.getWhatItDoes();
 		
 		for(int i = 0; i < numTurns(); i++)
 		{
 			
 			boolean up = false;
 			
-			key.getChar
+			if(read.get(i).equals("1"))
+			{
+				up = true;
+			}
 			
 			for(int j = 0; j < cList.size(); j++)
 			{
 				//prompt player
 				
-				ActionCard toPut = new ActionCard();
 				
-				for(int k = 0; k < hands.get( cList.get(j) ).size(); k++)
+				if(!(read.get(i).equals("2")))
 				{
+					ActionCard toPut = new ActionCard();
 					
-					if(hands.get( cList.get(j) ).get(k).getWhatItDoes().equals("prompted response"))//FIX!!!
+					for(int k = 0; k < hands.get( cList.get(j) ).size(); k++)
 					{
 						
-						toPut = hands.get( cList.get(j) ).remove(k);
+						if(hands.get( cList.get(j) ).get(k).getWhatItDoes().equals("prompted response"))//FIX!!!
+						{
+							
+							toPut = hands.get( cList.get(j) ).remove(k);
+							
+							break;
+						}
 						
-						break;
 					}
 					
+					if(up)
+					{
+						toPut.setUp(true);
+					}
+					else
+					{
+						toPut.setUp(false);
+					}
+					
+					reel.add(toPut);
 				}
-				
-				reel.add(toPut);
+				else
+				{
+					ActionCard toPut = new ActionCard();
+					
+					for(int k = hands.get( cList.get(j) ).size(); k > 0; k--)
+					{
+						
+						if(hands.get( cList.get(j) ).get(k).getWhatItDoes().equals("prompted response"))//FIX!!!
+						{
+							
+							toPut = hands.get( cList.get(j) ).remove(k);
+							
+							break;
+						}
+						
+					}
+					
+					reel.add(toPut);
+					
+				}
 				
 			}
 			
@@ -130,9 +168,19 @@ public class Round {
 		
 	}
 	
-	public ArrayList<boolean> setIndex(String key)
+	public ArrayList<String> setIndex(String key)
 	{
-		//WORK ON
+		String[] one = key.split(" ");
+		
+		ArrayList<String> ret = ArrayList<String>();
+		
+		for(int i = 0; i < one.size(); i++)
+		{
+			ret.add(one[i]);
+		}
+		
+		return ret;
+		
 	}
 	
 	public void startOfRound () {
