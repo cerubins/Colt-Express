@@ -137,18 +137,4 @@ public class Character extends Player{
 		return i.getImage();
 	}
 	
-	public void keyPressed(KeyEvent e){
-		int key = e.getKeyCode();
-		
-		if(key == "1"){
-			//ACTIVATE CHOICE 1
-		}	
-		else if(key == "2")
-		else if(key == "3")
-		//.....//
-	}
-	public void keyReleased(KeyEvent e){
-		
-	}
-	
 }
