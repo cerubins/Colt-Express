@@ -106,13 +106,39 @@ public class Round {
 				up = true;
 			}
 			
-			for(int j = 0; j < cList.size(); j++)
+			
+			if(read.get(i).equals("2"))
 			{
-				//prompt player and prompt them in reverse order if "2"
-				
-				
-				if(!(read.get(i).equals("2")))
+				for(int j = cList.size(); j > 0; j--)
 				{
+					//prompt player (reverse)
+					
+						ActionCard toPut = new ActionCard();
+						
+						for(int k = hands.get( cList.get(j) ).size(); k > 0; k--)
+						{
+							
+							if(hands.get( cList.get(j) ).get(k).getWhatItDoes().equals("prompted response"))//FIX!!!
+							{
+								
+								toPut = hands.get( cList.get(j) ).remove(k);
+								
+								break;
+							}
+							
+						}
+						
+						reel.add(toPut);
+						
+					
+				}
+				
+			}
+			else
+			{
+				for(int j = 0; j < cList.size(); j++)
+				{
+					//prompt player
 					ActionCard toPut = new ActionCard();
 					
 					for(int k = 0; k < hands.get( cList.get(j) ).size(); k++)
@@ -139,33 +165,11 @@ public class Round {
 					
 					reel.add(toPut);
 				}
-				else
-				{
-					ActionCard toPut = new ActionCard();
-					
-					for(int k = hands.get( cList.get(j) ).size(); k > 0; k--)
-					{
-						
-						if(hands.get( cList.get(j) ).get(k).getWhatItDoes().equals("prompted response"))//FIX!!!
-						{
-							
-							toPut = hands.get( cList.get(j) ).remove(k);
-							
-							break;
-						}
-						
-					}
-					
-					reel.add(toPut);
-					
-				}
 				
 			}
 			
 		}
-		
-		
-		
+				
 	}
 	
 	public ArrayList<String> setIndex(String key)
