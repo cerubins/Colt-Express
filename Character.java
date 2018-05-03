@@ -137,4 +137,11 @@ public class Character extends Player{
 		return i.getImage();
 	}
 	
+	public void keyPressed(KeyEvent e){
+		
+	}
+	public void keyReleased(KeyEvent e){
+		
+	}
+	
 }
