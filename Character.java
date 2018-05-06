@@ -136,5 +136,22 @@ public class Character extends Player{
 		ImageIcon i = new ImageIcon(getClass().getResource(playerImage));
 		return i.getImage();
 	}
+	public int getTotal()
+	{
+		int sum = 0;
+		for (int y = 0; y<getRubies().size(); y++)
+		{
+			sum+=getRubies().get(y).getAmount();
+		}
+		for (int y = 0; y<getBags().size(); y++)
+		{
+			sum+=getBags().get(y).getAmount();
+		}
+		for (int y = 0; y<getLockBoxes().size(); y++)
+		{
+			sum+=getLockBoxes().get(y).getAmount();
+		}
+		return sum;
+	}
 	
 }
