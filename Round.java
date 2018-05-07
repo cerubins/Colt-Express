@@ -99,11 +99,11 @@ public class Round {
 		for(int i = 0; i < numTurns(); i++)
 		{
 			
-			boolean up = false;
+			boolean up = true;
 			
-			if(read.get(i).equals("1"))
+			if(read.get(i).equals("0"))
 			{
-				up = true;
+				up = false;
 			}
 			
 			
@@ -170,10 +170,14 @@ public class Round {
 			
 		}
 		
+		
+		
 		for(int i = 0; i < reel.size(); i++)
 		{
 			action(reel.remove().getWhatItDoes());
 		}
+		
+		
 				
 	}
 	
