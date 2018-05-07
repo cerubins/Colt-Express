@@ -169,6 +169,11 @@ public class Round {
 			}
 			
 		}
+		
+		for(int i = 0; i < reel.size(); i++)
+		{
+			action(reel.remove().getWhatItDoes());
+		}
 				
 	}
 	
