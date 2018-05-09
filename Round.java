@@ -455,7 +455,57 @@ public class Round {
 		
 		
 	}
+	public String printPunchOptions(Character player)
+	{
+		String str = "Who would you like to hit? You cannot hit yourself.\n";
+		int car = player.getCurrentCar();
+		ArrayList<Character> list = tr.getTrainCar(car).getPlatform(player.getLevel()).getCharacterList();
+		if (list.size()>0)
+		{
+			for (int x = 0; x<list.size(); x++)
+			{
+				str = str+(x+1)+".\t"+list.get(x).getName()+"\n";
+			}
+		}
+		else
+		{
+			str = "Sorry, you can't punch here.";
+		}
+		return str;
+	}
 	
+	
+	public String printLootOptions(ArrayList<InventoryTwo> list)
+	{
+		String str = "What would you like to loot?\n";
+		if (list.size()>0)
+		{
+			for (int x = 0; x<list.size(); x++)
+			{
+				str = str +(x+1)+".\t"+list.get(x).getType()+"\n";
+			}
+		}
+		else
+			str = "Sorry, you can't loot here.";
+		return str;
+	}
+	
+	
+	public String printShootOptions(TreeMap<Integer, ArrayList<Character>> map)
+	{
+		String str = "Who would you like to punch?\n";
+		int count = 1;
+		for (int x : map.keySet())
+		{
+			ArrayList<Character> list = map.get(x);
+			for (int i = 0; i<list.size();i++)
+			{
+				str = str+count+".\t"+list.get(i).getName()+"\n";
+				count++;
+			}
+		}
+		return str;
+	}//NEED TO LOOK OVER THIS
 	public void action(ActionCard card, Character player){ // LEFT IS FORWARD, RIGHT IS BACKWARD
 		int car = player.getCurrentCar();
 		switch(card.getWhatItDoes()){
@@ -463,6 +513,7 @@ public class Round {
 			
 			ArrayList<Character> list = tr.getTrainCar(car).getPlatform(player.getLevel()).getCharacterList();
 			//ASK PLAYER FOR PLAYER TO PUNCH, PUT IN STRING 'VICTIM', ask player for direction to punch, put in string 'direction'
+			out.println(printPunchOptions(player));
 			String victim = "";
 			String direction = "";
 			for(int x = 0; x < list.size(); x++){
@@ -549,7 +600,7 @@ public class Round {
 					}
 					
 				}
-				
+				out.println(printShootOptions(possibleShoots));
 				Character victim = new Character ("", car, car, car, car); // GIVE OPTIONS ON WHOM TO SHOOT BASED ON MAP POSSIBLE SHOOTS, SELECT CHARACTER TO SHOOT AND POINT SELECTED AT IT (INITIALIZED ONLY TO PREVENT ERROR FOR NOW, DOESN'T ACTUALLY WORK)
 				
 				hands.get (victim).add (bulletCards.get (player).remove (0));
@@ -725,7 +776,8 @@ public class Round {
 			{
 				list.add(tr.getTrainCar(car).getPlatform(player.getLevel()).getInventory().getLockBoxes().get(x));
 			}
-			//ADDS ALL INVENTORY TO ARRAYLIST OF INVENTORY 
+			//ADDS ALL INVENTORY TO ARRAYLIST OF INVENTORY
+			out.println(printLootOptions(list));
 			//SHOW OPTIONS
 			InventoryTwo selected = new InventoryTwo("");
 			tr.getTrainCar(car).getPlatform(player.getLevel()).getInventory().removeInventory(selected, player);
