@@ -60,7 +60,7 @@ public class Round {
 			
 			for (int j = 0; j < 6; j++) {
 				
-				temp.add (new ActionCard ("bullet"));
+				temp.add (new ActionCard ("bullet", cList.get (i)));
 				
 			}
 			
@@ -92,11 +92,11 @@ public class Round {
 		
 		ArrayList<String> read = setIndex(roundCard.getTurns());
 		
-		Queue<ActionCard> reel = new Queue<ActionCard>();
+		Queue<ActionCard> reel = new LinkedList <ActionCard>();
 		
 		String desc = roundCard.getWhatItDoes();
 		
-		for(int i = 0; i < numTurns(); i++)
+		for(int i = 0; i < numTurns; i++)
 		{
 			
 			boolean up = true;
@@ -111,9 +111,9 @@ public class Round {
 			{
 				for(int j = cList.size(); j > 0; j--)
 				{
-					//prompt player (reverse)
+					//prompt player (reverse) GIVE PLAYER OPTIONS FOR AVAILABLE CARDS IN HAND HERE
 					
-						ActionCard toPut = new ActionCard();
+						ActionCard toPut = new ActionCard ("");
 						
 						for(int k = hands.get( cList.get(j) ).size(); k > 0; k--)
 						{
@@ -138,8 +138,8 @@ public class Round {
 			{
 				for(int j = 0; j < cList.size(); j++)
 				{
-					//prompt player
-					ActionCard toPut = new ActionCard();
+					//prompt player GIVE PLAYER OPTIONS FOR AVAILABLE CARDS IN HAND HERE
+					ActionCard toPut = new ActionCard ("");
 					
 					for(int k = 0; k < hands.get( cList.get(j) ).size(); k++)
 					{
@@ -163,6 +163,8 @@ public class Round {
 						toPut.setUp(false);
 					}
 					
+					toPut.setCharacter( cList.get(j) );
+					
 					reel.add(toPut);
 				}
 				
@@ -174,20 +176,272 @@ public class Round {
 		
 		for(int i = 0; i < reel.size(); i++)
 		{
-			action(reel.remove().getWhatItDoes());
+			ActionCard ac = reel.remove ();
+			
+			action (ac, ac.getCharacter());
 		}
 		
-		
+		endRoundRoundCardSwitchCases ();
 				
+	}
+	
+	public void endRoundRoundCardSwitchCases () {
+		
+		switch (roundCard.getWhatItDoes()) {
+		
+			case "aloneInCar:StealOneBag": {
+				
+				for (int i = 0; i <= 4; i++) {
+					
+					if (tr.getTrainCar(i).getPlatform(0).getCharacterList().size() == 1 && 
+							tr.getTrainCar(i).getPlatform(0).getInventory().getBags().size() >= 1) {
+						
+						Character player = tr.getTrainCar(i).getPlatform(0).getCharacterList().get (0);
+						
+						tr.getTrainCar(i).getPlatform(player.getLevel()).getInventory().removeInventory(tr.getTrainCar(i).getPlatform(0).getInventory().getBags().get(0), player);
+						
+					}
+					
+				}
+				
+			} break;
+			
+			case "atopCarAndMarshall:DropBag": {
+				
+				for (int i = 0; i <= 4; i++) {
+					
+					boolean inThisCar = false;
+					
+					for (int j = 0; j < tr.getTrainCar(i).getPlatform(0).getCharacterList().size(); j++) {
+						
+						if (tr.getTrainCar(i).getPlatform(0).getCharacterList().get (i).getName().equals("marshall")) {
+							
+							inThisCar = true;
+							
+							break;
+							
+						}
+						
+					}
+					
+					if (inThisCar) {
+						
+						if (tr.getTrainCar(i).getPlatform(1).getCharacterList().size () >= 1) { // does it drop everyone atop's bags?
+							
+							for (int j = 0; j < tr.getTrainCar(i).getPlatform(1).getCharacterList().size (); j++) {
+								
+								Character player = tr.getTrainCar(i).getPlatform(1).getCharacterList().get (j);
+								
+								try {
+								
+									tr.getTrainCar(i).getPlatform(1).getInventory().addBags(player.removeBag());
+									
+								}
+								catch (NullPointerException e) {
+									
+									;
+									
+								}
+								
+							}
+							
+						}
+						
+						break;
+						
+					}
+					
+				}
+				
+			} break;
+			
+			case "onOrInEngine:get250Cash": {
+				
+				if (tr.getTrainCar(0).getPlatform(0).getCharacterList().size () >= 1) {
+					
+					for (int i = 0; i < tr.getTrainCar(0).getPlatform(0).getCharacterList().size (); i++) {
+						
+						Character player = tr.getTrainCar(0).getPlatform(0).getCharacterList().get (i);
+						
+						player.addBags (new Bag (250));
+						
+					}
+					
+				}
+				
+				if (tr.getTrainCar(0).getPlatform(1).getCharacterList().size () >= 1) {
+					
+					for (int i = 0; i < tr.getTrainCar(0).getPlatform(1).getCharacterList().size (); i++) {
+						
+						Character player = tr.getTrainCar(0).getPlatform(1).getCharacterList().get (i);
+						
+						player.addBags (new Bag (250));
+						
+					}
+					
+				}
+				
+			} break;
+			
+			case "sheriffDropsNewLockBox": {
+				
+				for (int i = 0; i <= 4; i++) {
+					
+					boolean inThisCar = false;
+					
+					Character marshall = new Character ("", 0, 0, 0, 0);
+					
+					for (int j = 0; j < tr.getTrainCar(i).getPlatform(0).getCharacterList().size(); j++) {
+						
+						if (tr.getTrainCar(i).getPlatform(0).getCharacterList().get (i).getName().equals("marshall")) {
+							
+							inThisCar = true;
+							
+							marshall = tr.getTrainCar(i).getPlatform(0).getCharacterList().get (i);
+							
+							break;
+							
+						}
+						
+					}
+					
+					if (inThisCar) {
+						
+						if (marshall.getLockboxes ().size () > 0) {
+							
+							// *NEED TO START GAME WITH 3 LOCKBOXES IN MARSHALL!!*
+							
+							tr.getTrainCar (i).getPlatform(0).getInventory().addLockBox(marshall.removeLockBox());
+							
+						}
+						
+						break;
+						
+					}
+					
+				}
+				
+			} break;
+			
+			case "allPeopleAtopTrainMoveToCaboose": {
+				
+				for (int i = 0; i <= 3; i++) {
+					
+					if (tr.getTrainCar (i).getPlatform(1).getCharacterList().size() > 1) {
+						
+						for (int j = 0; j < tr.getTrainCar (i).getPlatform(1).getCharacterList().size (); j++) {
+							
+							Character player = tr.getTrainCar(i).getPlatform(1).getCharacterList().remove(j);
+							
+							tr.getTrainCar(4).getPlatform(1).addPlayer (player);
+							
+							player.updateCurrentCar(4);
+							
+						}
+						
+					}
+					
+				}
+				
+			} break;
+			
+			case "everyoneAtopMovesTowardsEngine1Space": {
+				
+				for (int i = 1; i <= 4; i++) {
+					
+					if (tr.getTrainCar (i).getPlatform (1).getCharacterList().size () > 1) {
+						
+						for (int j = 0; j < tr.getTrainCar (i).getPlatform(1).getCharacterList().size (); j++) {
+							
+							Character player = tr.getTrainCar(i).getPlatform(1).getCharacterList().remove(j);
+							
+							tr.getTrainCar(player.currentCar - 1).getPlatform (1).addPlayer (player);
+							
+							player.updateCurrentCar(player.currentCar - 1);
+							
+						}
+						
+					}
+					
+				}
+				
+			} break;
+			
+			case "everyoneTakes1Damage": {
+				
+				for (int i = 0; i <= 4; i++) {
+					
+					for (int j = 0; j < tr.getTrainCar(i).getPlatform(0).getCharacterList().size (); j++) {
+						
+						hands.get (tr.getTrainCar(i).getPlatform(0).getCharacterList().get (j)).add(new ActionCard ("bullet", null)); // *ACTIONCARD (BULLET CARD) WITH NULL AS CHARACTER IS NEUTRAL CARD!!*
+						
+					}
+					
+					for (int j = 0; j < tr.getTrainCar(i).getPlatform(1).getCharacterList().size (); j++) {
+						
+						hands.get (tr.getTrainCar(i).getPlatform(1).getCharacterList().get (j)).add(new ActionCard ("bullet", null)); // *ACTIONCARD (BULLET CARD) WITH NULL AS CHARACTER IS NEUTRAL CARD!!*
+						
+					}
+					
+				}
+				
+			} break;
+			
+			case "sheriffShootsAnyoneAboveHisCar": {
+				
+				for (int i = 0; i <= 4; i++) {
+					
+					boolean inThisCar = false;
+					
+					Character marshall = new Character ("", 0, 0, 0, 0);
+					
+					for (int j = 0; j < tr.getTrainCar(i).getPlatform(0).getCharacterList().size(); j++) {
+						
+						if (tr.getTrainCar(i).getPlatform(0).getCharacterList().get (i).getName().equals("marshall")) {
+							
+							inThisCar = true;
+							
+							marshall = tr.getTrainCar(i).getPlatform(0).getCharacterList().get (i);
+							
+							break;
+							
+						}
+						
+					}
+					
+					if (inThisCar) {
+						
+						if (tr.getTrainCar (i).getPlatform(1).getCharacterList().size () > 1) {
+							
+							for (int j = 0; j < tr.getTrainCar (i).getPlatform(1).getCharacterList().size (); j++) {
+								
+								Character player = tr.getTrainCar (i).getPlatform(1).getCharacterList().get (j);
+								
+								hands.get(player).add(new ActionCard ("bullet", null)); // *ACTIONCARD (BULLET CARD) WITH NULL AS CHARACTER IS NEUTRAL CARD!!*
+								
+							}
+							
+						}
+						
+						break;
+						
+					}
+				
+				}
+					
+			} break;
+		
+		}
+		
 	}
 	
 	public ArrayList<String> setIndex(String key)
 	{
 		String[] one = key.split(" ");
 		
-		ArrayList<String> ret = ArrayList<String>();
+		ArrayList<String> ret = new ArrayList<String> ();
 		
-		for(int i = 0; i < one.size(); i++)
+		for(int i = 0; i < one.length; i++)
 		{
 			ret.add(one[i]);
 		}
@@ -296,7 +550,7 @@ public class Round {
 					
 				}
 				
-				Character victim = new Character ("", car, car); // GIVE OPTIONS ON WHOM TO SHOOT BASED ON MAP POSSIBLE SHOOTS, SELECT CHARACTER TO SHOOT AND POINT SELECTED AT IT (INITIALIZED ONLY TO PREVENT ERROR FOR NOW, DOESN'T ACTUALLY WORK)
+				Character victim = new Character ("", car, car, car, car); // GIVE OPTIONS ON WHOM TO SHOOT BASED ON MAP POSSIBLE SHOOTS, SELECT CHARACTER TO SHOOT AND POINT SELECTED AT IT (INITIALIZED ONLY TO PREVENT ERROR FOR NOW, DOESN'T ACTUALLY WORK)
 				
 				hands.get (victim).add (bulletCards.get (player).remove (0));
 				
@@ -458,10 +712,10 @@ public class Round {
 		} break;
 		case "loot":
 		{
-			ArrayList<InventoryTwo> list = new ArrayList<>();
+			ArrayList <InventoryTwo> list = new ArrayList <InventoryTwo> ();
 			for (int x = 0; x<tr.getTrainCar(car).getPlatform(player.getLevel()).getInventory().getBags().size(); x++)
 			{
-				list.add(tr.getTrainCar(car).getPlatform(player.getLevel()).getInventory().getBags().get(x));
+				list.add (tr.getTrainCar(car).getPlatform(player.getLevel()).getInventory().getBags().get(x));
 			}
 			for (int x = 0; x<tr.getTrainCar(car).getPlatform(player.getLevel()).getInventory().getRubies().size(); x++)
 			{
@@ -535,7 +789,7 @@ public class Round {
 					if (!tr.getTrainCar(currentLoc).getPlatform(level).getCharacterList().get(x).getName().equals("marshall"))
 					{
 						tr.getTrainCar(currentLoc).getPlatform(level).getCharacterList().get(x).updateLevel(level+1);
-						hands.get(tr.getTrainCar(currentLoc).getPlatform(level).getCharacterList().get(x)).add(new ActionCard("bullet",marshall));
+						hands.get(tr.getTrainCar(currentLoc).getPlatform(level).getCharacterList().get(x)).add(new ActionCard("bullet",null)); // *ACTIONCARD (BULLET CARD) WITH NULL AS CHARACTER IS NEUTRAL CARD!!*
 					}
 				}
 			}

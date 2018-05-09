@@ -128,14 +128,6 @@ public class Character extends Player{
 		
 	}
 	
-	public void draw(Graphics2D g2d){
-		g2d.drawImage(getPlayerImage(), x, y, null);
-	}
-	
-	public Image getPlayerImage(){
-		ImageIcon i = new ImageIcon(getClass().getResource(playerImage));
-		return i.getImage();
-	}
 	public int getTotal()
 	{
 		int sum = 0;
@@ -147,9 +139,9 @@ public class Character extends Player{
 		{
 			sum+=getBags().get(y).getAmount();
 		}
-		for (int y = 0; y<getLockBoxes().size(); y++)
+		for (int y = 0; y<getLockboxes().size(); y++)
 		{
-			sum+=getLockBoxes().get(y).getAmount();
+			sum+=getLockboxes().get(y).getAmount();
 		}
 		return sum;
 	}
