@@ -1,11 +1,12 @@
 
-public class Ruby extends Inventory implements Basics
+public class Ruby extends InventoryTwo implements Basics
 {
 	private int rubyAmount;
 	private String name;
 	
 	public Ruby()
 	{
+		super("ruby");
 		name = "ruby";
 		rubyAmount = 500;
 	}
