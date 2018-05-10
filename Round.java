@@ -4,11 +4,14 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 import java.util.TreeMap;
-
+import java.util.Scanner;
+import static java.lang.System.*;
 
 public class Round {
 	
 	private Train tr;
+	
+	private Scanner sc;
 	
 	private ArrayList <Character> cList = new ArrayList <Character> ();
 	
@@ -26,6 +29,7 @@ public class Round {
 	
 	public Round (Train t, ArrayList <Character> c) { // NEED TO PASS EVERYTHING IN HERE!!
 		
+		sc = new Scanner(in);
 		tr = t;
 		
 		cList = c;
@@ -505,7 +509,62 @@ public class Round {
 			}
 		}
 		return str;
-	}//NEED TO LOOK OVER THIS
+	}
+	
+	
+	public String printMoveOptions(Character player)
+	{
+		String str = "Which way would you like to move? (type in exactly as printed)\n";
+		int level = player.currentLevel;
+		int currentLoc = player.currentCar;
+		if (level == 0) {
+			
+			if (currentLoc - 1 >= 0) 
+			{
+				str = str+"1 left\n";
+			}
+			else if (currentLoc + 1 >= 0 && currentLoc + 1 <= 4) 
+			{
+				str = str+"1 right\n";
+			}
+			else {
+				
+				tr.getTrainCar(currentLoc).getPlatform(level).addPlayer (player);
+				
+				player.updateCurrentCar(currentLoc);
+				
+			}
+			
+		}
+		else {
+			
+			if ( currentLoc - 1 >= 0) {
+				str = str+"1 left\n";
+			}
+			if ( currentLoc - 2 >= 0) {
+				
+				str = str+"2 left\n";
+			}
+			if ( currentLoc - 3 >= 0) {
+				str = str+"3 left\n";
+			}
+			if (currentLoc + 1 >= 0 && currentLoc + 1 <= 4) {
+				
+				str = str+"1 right \n";
+			}
+			if (currentLoc + 2 >= 0 && currentLoc + 2 <= 4) {
+				
+				str = str+"3 right \n";
+				
+			}
+			if (currentLoc + 3 >= 0 && currentLoc + 3 <= 4) {
+				
+				str = str+"3 right \n";
+			}
+		}
+			return str;
+	}
+	
 	public void action(ActionCard card, Character player){ // LEFT IS FORWARD, RIGHT IS BACKWARD
 		int car = player.getCurrentCar();
 		switch(card.getWhatItDoes()){
@@ -514,8 +573,9 @@ public class Round {
 			ArrayList<Character> list = tr.getTrainCar(car).getPlatform(player.getLevel()).getCharacterList();
 			//ASK PLAYER FOR PLAYER TO PUNCH, PUT IN STRING 'VICTIM', ask player for direction to punch, put in string 'direction'
 			out.println(printPunchOptions(player));
-			String victim = "";
-			String direction = "";
+			String victim = sc.nextLine();
+			out.println("Which direction would you like to punch the victim?");
+			String direction = sc.nextLine();
 			for(int x = 0; x < list.size(); x++){
 				if(list.get(x).getName().equals(victim)){
 					Character vic = player.currentPlat.removePlayer(victim);
@@ -600,7 +660,7 @@ public class Round {
 					}
 					
 				}
-				out.println(printShootOptions(possibleShoots));
+				out.println(printShootOptions(possibleShoots));//NEED HELP HERE
 				Character victim = new Character ("", car, car, car, car); // GIVE OPTIONS ON WHOM TO SHOOT BASED ON MAP POSSIBLE SHOOTS, SELECT CHARACTER TO SHOOT AND POINT SELECTED AT IT (INITIALIZED ONLY TO PREVENT ERROR FOR NOW, DOESN'T ACTUALLY WORK)
 				
 				hands.get (victim).add (bulletCards.get (player).remove (0));
@@ -666,6 +726,8 @@ public class Round {
 			int currentLoc = player.currentCar;
 			
 			tr.getTrainCar (currentLoc).getPlatform(level).removePlayer(player.getName());
+			out.println(printMoveOptions(player));
+			d = sc.nextLine();
 			
 			if (level == 0) {
 				
@@ -778,8 +840,10 @@ public class Round {
 			}
 			//ADDS ALL INVENTORY TO ARRAYLIST OF INVENTORY
 			out.println(printLootOptions(list));
+			int sel = sc.nextInt();
+			sel--;
 			//SHOW OPTIONS
-			InventoryTwo selected = new InventoryTwo("");
+			InventoryTwo selected = new InventoryTwo(list.get(sel).getType());
 			tr.getTrainCar(car).getPlatform(player.getLevel()).getInventory().removeInventory(selected, player);
 			
 		}break; 
@@ -816,7 +880,8 @@ public class Round {
 			
 			// ASK PLAYER FOR DIRECTION TO MOVE MARSHALL, PUT "LEFT" OR "RIGHT" (FORWARD OR BACKWARD RESPECTIVELY) (LOWERCASE) IN STRING d
 			
-			String d = "";
+			out.println("Which way would you like to move the Marshall? (left or right)");
+			String d = sc.nextLine();
 			
 			if (d.equals("left") && currentLoc - 1 >= 0) {
 				
