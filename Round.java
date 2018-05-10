@@ -27,12 +27,20 @@ public class Round {
 	
 	private String [] roundCardWhatItDoes;
 	
-	public Round (Train t, ArrayList <Character> c) { // NEED TO PASS EVERYTHING IN HERE!!
+	public Round Train t, ArrayList <Character> c, TreeMap<Character, ArrayList<ActionCard>> h, TreeMap <Character, ArrayList <ActionCard>> bC, TreeMap <Character, ArrayList <ActionCard>> dis, TreeMap <Character, ArrayList <ActionCard>> dra) { // NEED TO PASS EVERYTHING IN HERE!!
 		
 		sc = new Scanner(in);
 		tr = t;
 		
 		cList = c;
+		
+		hands = h;
+		
+		bulletCards = bC;
+		
+		discard = dis;
+		
+		draw = dra;
 		
 	}
 	
@@ -88,9 +96,13 @@ public class Round {
 		
 	}
 	
-	public void playRound () {
+public void playRound () {
 		
 		//1 is up, 0 is down, 2 reverse
+		
+		RoundCardSelector rs = new RoundCardSelector ();
+		
+		roundCard = rs.select ();
 		
 		int numTurns = roundCard.getNumTurns();
 		
@@ -117,7 +129,7 @@ public class Round {
 				{
 					//prompt player (reverse) GIVE PLAYER OPTIONS FOR AVAILABLE CARDS IN HAND HERE
 					
-						ActionCard toPut = chooseToPlayCard (cList.get (j));
+						ActionCard toPut = new ActionCard ("");
 						
 						for(int k = hands.get( cList.get(j) ).size(); k > 0; k--)
 						{
@@ -143,7 +155,7 @@ public class Round {
 				for(int j = 0; j < cList.size(); j++)
 				{
 					//prompt player GIVE PLAYER OPTIONS FOR AVAILABLE CARDS IN HAND HERE
-					ActionCard toPut = chooseToPlayCard (cList.get (j));
+					ActionCard toPut = new ActionCard ("");
 					
 					for(int k = 0; k < hands.get( cList.get(j) ).size(); k++)
 					{
@@ -187,40 +199,6 @@ public class Round {
 		
 		endRoundRoundCardSwitchCases ();
 				
-	}
-	
-	public ActionCard chooseToPlayCard (Character player) {
-		
-		ArrayList <ActionCard> options = new ArrayList <ActionCard> ();
-		
-		for (int i = 0; i < hands.get (player).size (); i++) {
-			
-			options.add (hands.get (player).get (i));
-			
-		}
-		
-		for (int i = 0; i < options.size (); i++) {
-			
-			System.out.println ((i + 1) + ". " + options.get (i).getWhatItDoes ());
-			
-		}
-		
-		Scanner input = new Scanner (System.in);
-		
-		int index = input.nextInt() - 1;
-		
-		for (int i = 0; i < hands.get(player).size (); i++) {
-			
-			if (i == index) {
-				
-				return hands.get(player).get (i);
-				
-			}
-			
-		}
-		
-		return null;
-		
 	}
 	
 	public void endRoundRoundCardSwitchCases () {
