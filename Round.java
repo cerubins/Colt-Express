@@ -25,22 +25,16 @@ public class Round {
 	
 	private RoundCard roundCard;
 	
+	private TreeMap<Integer, String> shootSelections = new TreeMap<>();
+	
 	private String [] roundCardWhatItDoes;
 	
-	public Round Train t, ArrayList <Character> c, TreeMap<Character, ArrayList<ActionCard>> h, TreeMap <Character, ArrayList <ActionCard>> bC, TreeMap <Character, ArrayList <ActionCard>> dis, TreeMap <Character, ArrayList <ActionCard>> dra) { // NEED TO PASS EVERYTHING IN HERE!!
+	public Round (Train t, ArrayList <Character> c) { // NEED TO PASS EVERYTHING IN HERE!!
 		
 		sc = new Scanner(in);
 		tr = t;
 		
 		cList = c;
-		
-		hands = h;
-		
-		bulletCards = bC;
-		
-		discard = dis;
-		
-		draw = dra;
 		
 	}
 	
@@ -96,13 +90,9 @@ public class Round {
 		
 	}
 	
-public void playRound () {
+	public void playRound () {
 		
 		//1 is up, 0 is down, 2 reverse
-		
-		RoundCardSelector rs = new RoundCardSelector ();
-		
-		roundCard = rs.select ();
 		
 		int numTurns = roundCard.getNumTurns();
 		
@@ -129,7 +119,7 @@ public void playRound () {
 				{
 					//prompt player (reverse) GIVE PLAYER OPTIONS FOR AVAILABLE CARDS IN HAND HERE
 					
-						ActionCard toPut = new ActionCard ("");
+						ActionCard toPut = chooseToPlayCard (cList.get (j));
 						
 						for(int k = hands.get( cList.get(j) ).size(); k > 0; k--)
 						{
@@ -155,7 +145,7 @@ public void playRound () {
 				for(int j = 0; j < cList.size(); j++)
 				{
 					//prompt player GIVE PLAYER OPTIONS FOR AVAILABLE CARDS IN HAND HERE
-					ActionCard toPut = new ActionCard ("");
+					ActionCard toPut = chooseToPlayCard (cList.get (j));
 					
 					for(int k = 0; k < hands.get( cList.get(j) ).size(); k++)
 					{
@@ -199,6 +189,40 @@ public void playRound () {
 		
 		endRoundRoundCardSwitchCases ();
 				
+	}
+	
+	public ActionCard chooseToPlayCard (Character player) {
+		
+		ArrayList <ActionCard> options = new ArrayList <ActionCard> ();
+		
+		for (int i = 0; i < hands.get (player).size (); i++) {
+			
+			options.add (hands.get (player).get (i));
+			
+		}
+		
+		for (int i = 0; i < options.size (); i++) {
+			
+			System.out.println ((i + 1) + ". " + options.get (i).getWhatItDoes ());
+			
+		}
+		
+		Scanner input = new Scanner (System.in);
+		
+		int index = input.nextInt() - 1;
+		
+		for (int i = 0; i < hands.get(player).size (); i++) {
+			
+			if (i == index) {
+				
+				return hands.get(player).get (i);
+				
+			}
+			
+		}
+		
+		return null;
+		
 	}
 	
 	public void endRoundRoundCardSwitchCases () {
@@ -473,9 +497,17 @@ public void playRound () {
 	}
 	public String printPunchOptions(Character player)
 	{
-		String str = "Who would you like to hit? You cannot hit yourself.\n";
+		String str = "Who would you like to punch? You cannot punch yourself.\n";
 		int car = player.getCurrentCar();
 		ArrayList<Character> list = tr.getTrainCar(car).getPlatform(player.getLevel()).getCharacterList();
+		for (int x = 0; x <list.size(); x++)
+		{ 
+			if (list.get(x).getName().equals(player.getName()))
+			{
+				list.remove(x);
+				break;
+			}
+		}
 		if (list.size()>0)
 		{
 			for (int x = 0; x<list.size(); x++)
@@ -509,7 +541,8 @@ public void playRound () {
 	
 	public String printShootOptions(TreeMap<Integer, ArrayList<Character>> map)
 	{
-		String str = "Who would you like to punch?\n";
+		shootSelections = new TreeMap<>();
+		String str = "Who would you like to shoot?\n";
 		int count = 1;
 		for (int x : map.keySet())
 		{
@@ -517,6 +550,7 @@ public void playRound () {
 			for (int i = 0; i<list.size();i++)
 			{
 				str = str+count+".\t"+list.get(i).getName()+"\n";
+				shootSelections.put(count, list.get(i).getName());
 				count++;
 			}
 		}
@@ -672,7 +706,25 @@ public void playRound () {
 					}
 					
 				}
-				out.println(printShootOptions(possibleShoots));//NEED HELP HERE
+				Character selected = new Character ("", car, car);
+				out.println(printShootOptions(possibleShoots));
+				int sel = sc.nextInt();
+				String str = shootSelections.get(sel);
+				for (int x : possibleShoots.keySet())
+				{
+					for (int i =0; i<possibleShoots.get(x).size(); i++)
+					{
+						if(possibleShoots.get(x).get(i).getName().equals(str))
+						{
+							selected = possibleShoots.get(x).get(i);
+							break;
+						}
+					}
+
+				}
+			 // GIVE OPTIONS ON WHOM TO SHOOT BASED ON MAP POSSIBLE SHOOTS, SELECT CHARACTER TO SHOOT AND POINT SELECTED AT IT (INITIALIZED ONLY TO PREVENT ERROR FOR NOW, DOESN'T ACTUALLY WORK)
+			
+			hands.get (selected).add(bulletCards.get(player).remove(0));
 				Character victim = new Character ("", car, car, car, car); // GIVE OPTIONS ON WHOM TO SHOOT BASED ON MAP POSSIBLE SHOOTS, SELECT CHARACTER TO SHOOT AND POINT SELECTED AT IT (INITIALIZED ONLY TO PREVENT ERROR FOR NOW, DOESN'T ACTUALLY WORK)
 				
 				hands.get (victim).add (bulletCards.get (player).remove (0));
