@@ -117,7 +117,7 @@ public class Round {
 				{
 					//prompt player (reverse) GIVE PLAYER OPTIONS FOR AVAILABLE CARDS IN HAND HERE
 					
-						ActionCard toPut = new ActionCard ("");
+						ActionCard toPut = chooseToPlayCard (cList.get (j));
 						
 						for(int k = hands.get( cList.get(j) ).size(); k > 0; k--)
 						{
@@ -143,7 +143,7 @@ public class Round {
 				for(int j = 0; j < cList.size(); j++)
 				{
 					//prompt player GIVE PLAYER OPTIONS FOR AVAILABLE CARDS IN HAND HERE
-					ActionCard toPut = new ActionCard ("");
+					ActionCard toPut = chooseToPlayCard (cList.get (j));
 					
 					for(int k = 0; k < hands.get( cList.get(j) ).size(); k++)
 					{
@@ -187,6 +187,40 @@ public class Round {
 		
 		endRoundRoundCardSwitchCases ();
 				
+	}
+	
+	public ActionCard chooseToPlayCard (Character player) {
+		
+		ArrayList <ActionCard> options = new ArrayList <ActionCard> ();
+		
+		for (int i = 0; i < hands.get (player).size (); i++) {
+			
+			options.add (hands.get (player).get (i));
+			
+		}
+		
+		for (int i = 0; i < options.size (); i++) {
+			
+			System.out.println ((i + 1) + ". " + options.get (i).getWhatItDoes ());
+			
+		}
+		
+		Scanner input = new Scanner (System.in);
+		
+		int index = input.nextInt() - 1;
+		
+		for (int i = 0; i < hands.get(player).size (); i++) {
+			
+			if (i == index) {
+				
+				return hands.get(player).get (i);
+				
+			}
+			
+		}
+		
+		return null;
+		
 	}
 	
 	public void endRoundRoundCardSwitchCases () {
