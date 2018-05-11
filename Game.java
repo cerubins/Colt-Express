@@ -14,7 +14,8 @@ import javax.swing.*;
 
 class Game extends JPanel implements KeyListener {
     private char c = 'e';
-    private Image bg, trainImage;
+    private Image bg, trainImage, characterSelectImage;
+    private boolean characterSelectionMenu = true;
     
     public Game() throws IOException {
         this.setPreferredSize(new Dimension(500, 500));
@@ -22,6 +23,7 @@ class Game extends JPanel implements KeyListener {
         
 		bg = ImageIO.read(new File("src/images/BG1.png"));
 		trainImage = ImageIO.read(new File("src/images/trainImage.png"));
+		characterSelectImage = ImageIO.read(new File("src/images/characterSelectLinupImage.png"));
     }
 
     public void addNotify() {
@@ -31,7 +33,14 @@ class Game extends JPanel implements KeyListener {
 
     public void paintComponent(Graphics g) {
     	g.drawImage(bg, 0, 0, this);
-    	g.drawImage(trainImage, 0, bg.getHeight(this) - 470, this);
+    	
+    	if(characterSelectionMenu){
+    		g.drawImage(characterSelectImage, 0, bg.getHeight(this) - 570, bg.getWidth(this), bg.getHeight(this)/2, this);
+    		g.drawOval(320, 400, 200, 200);
+    	}
+    	else {
+    		g.drawImage(trainImage, 0, bg.getHeight(this) - 470, this);
+    	}
     }
 
     public void keyPressed(KeyEvent e) { }
