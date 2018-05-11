@@ -29,12 +29,21 @@ public class Round {
 	
 	private String [] roundCardWhatItDoes;
 	
-	public Round (Train t, ArrayList <Character> c) { // NEED TO PASS EVERYTHING IN HERE!!
+	public Round (Train t, ArrayList <Character> c, TreeMap<Character, ArrayList<ActionCard>> h, TreeMap <Character, ArrayList <ActionCard>> bC, TreeMap <Character, ArrayList <ActionCard>> dis, TreeMap <Character, ArrayList <ActionCard>> dra) { // NEED TO PASS EVERYTHING IN HERE!!
 		
-		sc = new Scanner(in);
 		tr = t;
 		
 		cList = c;
+		
+		hands = h;
+		
+		bulletCards = bC;
+		
+		discard = dis;
+		
+		draw = dra;
+		
+		sc = new Scanner(in);
 		
 	}
 	
