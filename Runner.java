@@ -52,6 +52,20 @@ public class Runner {
 		}
 		
 		Round round = new Round(mainTrain, finalchar, hands, bulletCards, discard, draw);
+		
+		round.First();
+		
+		round.playRound();
+		
+		for(int i = 1; i<4; i++)
+		{
+			finalchar.add(finalchar.remove(0));
+			
+			round = new Round(mainTrain, finalchar, hands, bulletCards, discard, draw);
+			
+			round.playRound();
+		}
+		
 	}
 	
 	public static void fillOutNames()
