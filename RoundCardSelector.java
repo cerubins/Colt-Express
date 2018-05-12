@@ -18,9 +18,9 @@ public class RoundCardSelector {
 		
 		a.add (new RoundCard ("allPeopleAtopTrainMoveToCaboose", "1 0 1 1", 4, false));
 		
-		a.add (new RoundCard ("nothing", "1 0 1 0 1", 5, false));
+		// a.add (new RoundCard ("nothing", "1 0 1 0 1", 5, false));
 		
-		a.add (new RoundCard ("nothing", "1 1 1 1", 4, false));
+		// a.add (new RoundCard ("nothing", "1 1 1 1", 4, false));
 		
 		a.add (new RoundCard ("everyoneAtopMovesTowardsEngine1Space", "1 1 1 1", 4, false));
 		
@@ -31,6 +31,7 @@ public class RoundCardSelector {
 		Collections.shuffle (a);
 		
 		return a.get (0);
+		
 		
 	}
 	
