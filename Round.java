@@ -499,9 +499,63 @@ public class Round {
 		
 	}
 	
-	public void startOfRound () {
-		
-		
+	public void startOfRound () 
+	{
+		for (Character c: hands.keySet())
+		{
+			for (int x = hands.get(c).size()-1; x>=0 ; x--)
+			{
+				if (hands.get(c).get(x).getWhatItDoes().equals("bullet"))
+				{
+					discard.get(c).add(hands.get(c).remove(x));
+				}
+			}
+		}
+		for(Character c : hands.keySet())
+		{
+			String str = "Which would you like to discard? (If more than one, seperate by a space)\n";
+			for (int x = 0; x<hands.get(c).size(); x++)
+			{
+				str = str +(x+1)+".\t"+hands.get(c).get(x).getWhatItDoes()+"\n";
+			}
+			str = str+"0. Discard none";
+			out.println(str);
+			String choice = sc.nextLine();
+			if (Integer.parseInt(choice)==0)
+			{
+				break;
+			}
+			else if(choice.length()==1)
+			{
+				int i = Integer.parseInt(choice);
+				discard.get(c).add(hands.get(c).remove(i-1));
+			}
+			else
+			{
+				String[] f = choice.split(" ");
+				int [] dis = new int[f.length];
+				for (int x = 0; x<f.length; x++)
+				{
+					dis[x] = Integer.parseInt(f[x])-1;
+				}
+				for (int x = dis.length-1; x>=0 ; x--)
+				{
+					discard.get(c).add(hands.get(c).remove(dis[x]));
+				}
+			}
+			while (hands.get(c).size()<6)
+			{
+				if (draw.get(c).size()==0)
+				{
+					for (int x = discard.get(c).size()-1; x>=0; x--)
+					{
+						draw.get(c).add(discard.get(c).get(x));
+					}
+					Collections.shuffle(draw.get(c));
+				}
+				hands.get(c).add(draw.get(c).remove(0));
+			}
+		}
 		
 	}
 	public String printPunchOptions(Character player)
