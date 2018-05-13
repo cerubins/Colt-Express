@@ -5,7 +5,7 @@ public class RoundCard extends Card {
 	
 	private String turns = "";
 	
-	private int numTurns = 0;
+	private int numTurns = 4;
 	
 	private boolean isStopCard = false;
 	

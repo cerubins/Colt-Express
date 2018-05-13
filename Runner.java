@@ -20,6 +20,11 @@ public class Runner {
 
 	public static void main(String[] args)
 	{
+		
+		RoundCardSelector rs = new RoundCardSelector ();
+		
+		ArrayList <RoundCard> roundCardList = rs.select ();
+		
 		Train mainTrain = new Train();
 		
 		fillOutNames();
@@ -51,20 +56,46 @@ public class Runner {
 			
 		}
 		
-		Round round = new Round(mainTrain, finalchar, hands, bulletCards, discard, draw);
+		mainTrain.getTrainCar(0).getPlatform(0).addPlayer(new Character ("marshall", 0, 0, 0, 0));
+		
+		finalchar.add(new Character("marshall", 0, 0, 0, 0));
+		
+		Round round = new Round(mainTrain, finalchar, hands, bulletCards, discard, draw, roundCardList.get (0));
+		
+		roundCardList.add (roundCardList.remove (0));
 		
 		round.First();
 		
 		round.playRound();
 		
-		for(int i = 1; i<4; i++)
+		boolean toStop = false;
+		
+		while (!toStop) 
 		{
 			finalchar.add(finalchar.remove(0));
 			
-			round = new Round(mainTrain, finalchar, hands, bulletCards, discard, draw);
+			roundCardList.add (roundCardList.remove (0));
 			
-			round.playRound();
+			RoundCard r = roundCardList.get (0);
+			
+			if (!r.getIsStopCard ()) {
+				
+				round = new Round(mainTrain, finalchar, hands, bulletCards, discard, draw, r);
+				
+				round.startOfRound();
+			
+				round.playRound();
+			
+			}
+			else {
+				
+				break;
+				
+			}
+	
 		}
+		
+	//	EndGame eg = new EndGame(finalchar);
 		
 	}
 	

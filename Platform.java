@@ -14,6 +14,8 @@ public class Platform {
 	
 	public void addPlayer (Character c) {
 		
+		System.out.println("ADDSUCCESS"+ c.getName());
+		
 		people.add (c);
 		
 	}
@@ -41,6 +43,7 @@ public class Platform {
 		{
 			if(people.get(i).getName().equals(name))
 			{
+				System.out.println("SUCCESS"+people.get(i).getName());
 				return people.remove(i);
 			}
 		}

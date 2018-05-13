@@ -52,15 +52,42 @@ public class Inventory
 		{
 		case("bag"):
 		{
-			player.addBags(bags.remove(0));
+			try {
+			
+				player.addBags(bags.remove(0));
+			
+			}
+			catch (NullPointerException e) {
+				
+				
+				
+			}
 		}break;
 		case("ruby"):
 		{
-			player.addRubies(rubies.remove(0));
+			try {
+			
+				player.addRubies(rubies.remove(0));
+			
+			}
+			catch (NullPointerException e) {
+				
+				
+				
+			}
 		}break;
 		case("lockBox"):
 		{
-			player.addLockBoxes(lockBoxes.remove(0));
+			try {
+				
+				player.addLockBoxes(lockBoxes.remove(0));
+			
+			}
+			catch (NullPointerException e) {
+				
+				
+				
+			}
 		}break;
 		}
 	}

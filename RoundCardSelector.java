@@ -4,15 +4,15 @@ import java.util.Collections;
 
 public class RoundCardSelector {
 
-	public RoundCard select () {
+	public ArrayList <RoundCard> select () {
 		
 		ArrayList <RoundCard> a = new ArrayList <RoundCard> ();
 		
-		a.add (new RoundCard ("aloneInCar:StealOneBag", "1 1 0 1", 0, true));
+		a.add (new RoundCard ("aloneInCar:StealOneBag", "1 1 0 1", 4, true));
 		
-		a.add (new RoundCard ("atopCarAndMarshall:DropBag", "1 1 0 1", 0, true));
+		a.add (new RoundCard ("atopCarAndMarshall:DropBag", "1 1 0 1", 4, true));
 		
-		a.add (new RoundCard ("onOrInEngine:get250Cash", "1 1 0 1", 0, true));
+		a.add (new RoundCard ("onOrInEngine:get250Cash", "1 1 0 1", 4, true));
 		
 		a.add (new RoundCard ("sheriffDropsNewLockBox", "1 0 1 1 1", 5, false));
 		
@@ -30,8 +30,9 @@ public class RoundCardSelector {
 		
 		Collections.shuffle (a);
 		
-		return a.get (0);
+		return a;
 		
+		//return new RoundCard ("aloneInCar:StealOneBag", "1 1 0 1", 4, true);
 		
 	}
 	
