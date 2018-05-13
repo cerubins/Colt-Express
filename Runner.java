@@ -95,8 +95,27 @@ public class Runner {
 	
 		}
 		
-	//	EndGame eg = new EndGame(finalchar);
-		
+	
+		EndGame eg = new EndGame(finalchar);
+		TreeMap<Integer, ArrayList<Character>> rankings = eg.getResults();
+		ArrayList<Character> list = new ArrayList<>();
+		int count = 1;
+		for (int i : rankings.keySet())
+		{
+			for (int x = 0; x<rankings.get(i).size(); x++)
+			{
+				list.add(rankings.get(i).get(x));
+			}
+		}
+		count = 1; 
+		for (int x =list.size()-1; x>=0; x--)
+		{
+			if (!list.get(x).getName().equals("marshall"))
+			{
+				System.out.println(count+".\t"+list.get(x).getName()+"\t"+list.get(x).getTotal());
+				count++;
+			}
+		}
 	}
 	
 	public static void fillOutNames()
