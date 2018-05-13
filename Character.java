@@ -47,6 +47,18 @@ public class Character extends Player{
 		
 	}
 	
+	public int getX () {
+		
+		return x;
+		
+	}
+	
+	public int getY () {
+		
+		return y;
+		
+	}
+	
 	public ActionCard getBulletCard () {
 		
 		if (cardInventory.size () > 0) {
