@@ -35,7 +35,7 @@ class Game extends JPanel implements KeyListener {
 	
 	private static TreeMap <Character, ArrayList <ActionCard>> draw = new TreeMap <Character, ArrayList <ActionCard>> ();
 	
-	private int trainStartX = 329, trainCarLength = 314;
+	private int trainStartX = 329, trainCarLength = 314, trainCarHeight = 114;
     
     public Game() throws IOException {
         this.setPreferredSize(new Dimension(500, 500));
@@ -86,7 +86,7 @@ class Game extends JPanel implements KeyListener {
     				char1Selected = true;
     				secondarySelect = false;
     				
-    				Character created = new Character("belle", 4, 0, 0, 0);
+    				Character created = new Character ("belle", 4, 0, (trainStartX + trainCarLength * 4) + mainTrain.getTrainCar(4).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
     				
     				finalchar.add(created);
     				
@@ -97,7 +97,7 @@ class Game extends JPanel implements KeyListener {
     				char1Selected = true;
     				secondarySelect = false;
     				
-    				Character created = new Character("belle", 3, 0, 0, 0);
+    				Character created = new Character ("belle", 3, 0, (trainStartX + trainCarLength * 3) + mainTrain.getTrainCar(3).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
     				
     				finalchar.add(created);
     				
@@ -117,7 +117,7 @@ class Game extends JPanel implements KeyListener {
     				char2Selected = true;
     				secondarySelect = false;
     				
-    				Character created = new Character("tuco", 4, 0, 0, 0);
+    				Character created = new Character ("belle", 4, 0, (trainStartX + trainCarLength * 4) + mainTrain.getTrainCar(4).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
     				
     				finalchar.add(created);
     				
@@ -127,7 +127,7 @@ class Game extends JPanel implements KeyListener {
     				System.out.println(" FRONT OF CABOOSE SELECTED FOR CHAR 2");
     				char2Selected = true;
     				secondarySelect = false;
-    				Character created = new Character("tuco", 3, 0, 0, 0);
+    				Character created = new Character ("belle", 3, 0, (trainStartX + trainCarLength * 3) + mainTrain.getTrainCar(3).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
     				
     				finalchar.add(created);
     				
@@ -147,7 +147,7 @@ class Game extends JPanel implements KeyListener {
     				char3Selected = true;
     				secondarySelect = false;
     				
-    				Character created = new Character("django", 4, 0, 0, 0);
+    				Character created = new Character ("belle", 4, 0, (trainStartX + trainCarLength * 4) + mainTrain.getTrainCar(4).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
     				
     				finalchar.add(created);
     				
@@ -158,7 +158,7 @@ class Game extends JPanel implements KeyListener {
     				char3Selected = true;
     				secondarySelect = false;
     				
-    				Character created = new Character("django", 3, 0, 0, 0);
+    				Character created = new Character ("belle", 3, 0, (trainStartX + trainCarLength * 3) + mainTrain.getTrainCar(3).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
     				
     				finalchar.add(created);
     				
@@ -177,7 +177,7 @@ class Game extends JPanel implements KeyListener {
     				char4Selected = true;
     				secondarySelect = false;
     				
-    				Character created = new Character("ghost", 4, 0, 0, 0);
+    				Character created = new Character ("belle", 4, 0, (trainStartX + trainCarLength * 4) + mainTrain.getTrainCar(4).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
     				
     				finalchar.add(created);
     				
@@ -188,7 +188,7 @@ class Game extends JPanel implements KeyListener {
     				char4Selected = true;
     				secondarySelect = false;
     				
-    				Character created = new Character("ghost", 3, 0, 0, 0);
+    				Character created = new Character ("belle", 3, 0, (trainStartX + trainCarLength * 3) + mainTrain.getTrainCar(3).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
     				
     				finalchar.add(created);
     				
@@ -207,7 +207,7 @@ class Game extends JPanel implements KeyListener {
     				char5Selected = true;
     				secondarySelect = false;
     				
-    				Character created = new Character("doc", 4, 0, 0, 0);
+    				Character created = new Character ("belle", 4, 0, (trainStartX + trainCarLength * 4) + mainTrain.getTrainCar(4).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
     				
     				finalchar.add(created);
     				
@@ -218,7 +218,7 @@ class Game extends JPanel implements KeyListener {
     				char5Selected = true;
     				secondarySelect = false;
     				
-    				Character created = new Character("doc", 3, 0, 0, 0);
+    				Character created = new Character ("belle", 3, 0, (trainStartX + trainCarLength * 3) + mainTrain.getTrainCar(3).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
     				
     				finalchar.add(created);
     				
@@ -237,7 +237,7 @@ class Game extends JPanel implements KeyListener {
     				char6Selected = true;
     				secondarySelect = false;
     				
-    				Character created = new Character("cheyenne", 4, 0, 0, 0);
+    				Character created = new Character ("belle", 4, 0, (trainStartX + trainCarLength * 4) + mainTrain.getTrainCar(4).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
     				
     				finalchar.add(created);
     				
@@ -248,7 +248,7 @@ class Game extends JPanel implements KeyListener {
     				char6Selected = true;
     				secondarySelect = false;
     				
-    				Character created = new Character("cheyenne", 3, 0, 0, 0);
+    				Character created = new Character ("belle", 3, 0, (trainStartX + trainCarLength * 3) + mainTrain.getTrainCar(3).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
     				
     				finalchar.add(created);
     				
