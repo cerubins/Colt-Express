@@ -413,7 +413,7 @@ public class Round {
 							
 							inThisCar = true;
 							
-							marshall = tr.getTrainCar(i).getPlatform(0).getCharacterList().get (i);
+							marshall = tr.getTrainCar(i).getPlatform(0).getCharacterList().get (j);
 							
 							break;
 							
@@ -596,11 +596,11 @@ public class Round {
 		for (int i = 0; i < keySet.size (); i++)
 		{
 			
-			System.out.println ("CHOOSE");
-			
 			Character c = keySet.get(i);
-			while (hands.get(c).size()>0)
+			while (hands.get(c).size()>0&&hands.get(c).size()<5)
 			{
+				
+				System.out.println ("CHOOSE");
 				if (!c.getName().equals("marshall"))
 				{
 					String str = "Which would "+c.getName()+" like to discard?\n";

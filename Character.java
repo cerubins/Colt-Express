@@ -106,22 +106,42 @@ public class Character extends Player implements Comparable {
 	}
 	
 	public Bag removeBag(){
-		
-		int index = (int)(Math.random()*bags.size());
-		bags.remove(index);
-		return bags.get(index);
+		try {
+			int index = (int)(Math.random()*bags.size());
+			bags.remove(index);
+			return bags.get(index);
+		}
+		catch (IndexOutOfBoundsException e) {
+			
+			return null;
+			
+		}
 	}
 	public Ruby removeRuby()
 	{
-		int index = (int)(Math.random()*bags.size());
-		rubies.remove(index);
-		return rubies.get(index);
+		try {
+			int index = (int)(Math.random()*bags.size());
+			rubies.remove(index);
+			return rubies.get(index);
+		}
+		catch (IndexOutOfBoundsException e) {
+			
+			return null;
+			
+		}
 	}
 	public LockBox removeLockBox()
 	{
-		int index = (int)(Math.random()*bags.size());
-		lockboxes.remove(index);
-		return lockboxes.get(index);
+		try {
+			int index = (int)(Math.random()*bags.size());
+			lockboxes.remove(index);
+			return lockboxes.get(index);
+		}
+		catch (IndexOutOfBoundsException e) {
+			
+			return null;
+			
+		}
 	}
 	
 	public void update(){
