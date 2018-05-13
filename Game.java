@@ -16,7 +16,7 @@ class Game extends JPanel implements KeyListener {
 	
 	private char selectChar = 'e', secondarySelectChar = 'e';
 	
-    private Image bg, trainImage, characterSelectImage, blurredBg;
+    private Image bg, trainImage, characterSelectImage, blurredBg, belleImg, tucoImg, djangoImg, cheyenneImg, docImg, ghostImg;
     
     private boolean characterSelectionMenu = true, char1Selected = false, secondarySelect = false, char2Selected = false, 
     		char3Selected = false, char4Selected = false, char5Selected = false, char6Selected = false;
@@ -45,6 +45,13 @@ class Game extends JPanel implements KeyListener {
 		blurredBg = ImageIO.read(new File("src/images/blurredBackground.png"));
 		trainImage = ImageIO.read(new File("src/images/train.png"));
 		characterSelectImage = ImageIO.read(new File("src/images/characterSelectMainImage.png"));
+		
+		belleImg = ImageIO.read(new File("src/images/belleImg.png"));
+		tucoImg = ImageIO.read(new File("src/images/tucoImg.png"));
+		djangoImg = ImageIO.read(new File("src/images/djangoImg.png"));
+		ghostImg = ImageIO.read(new File("src/images/ghostImg.png"));
+		docImg = ImageIO.read(new File("src/images/docImg.png"));
+		cheyenneImg = ImageIO.read(new File("src/images/cheyenneImg.png"));
     }
 
     public void addNotify() {
@@ -88,7 +95,7 @@ class Game extends JPanel implements KeyListener {
     				characterSelectedCount++;
     				
     				Character created = new Character ("belle", 4, 0, (trainStartX + trainCarLength * 4) + mainTrain.getTrainCar(4).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
-    				
+    				created.setImage(belleImg);
     				finalchar.add(created);
     				
     				mainTrain.getTrainCar(4).getPlatform(0).addPlayer(created);
@@ -100,7 +107,7 @@ class Game extends JPanel implements KeyListener {
     				characterSelectedCount++;
     				
     				Character created = new Character ("belle", 3, 0, (trainStartX + trainCarLength * 3) + mainTrain.getTrainCar(3).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
-    				
+    				created.setImage(belleImg);
     				finalchar.add(created);
     				
     				mainTrain.getTrainCar(3).getPlatform(0).addPlayer(created);
@@ -121,7 +128,7 @@ class Game extends JPanel implements KeyListener {
     				characterSelectedCount++;
     				
     				Character created = new Character ("belle", 4, 0, (trainStartX + trainCarLength * 4) + mainTrain.getTrainCar(4).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
-    				
+    				created.setImage(tucoImg);
     				finalchar.add(created);
     				
     				mainTrain.getTrainCar(4).getPlatform(0).addPlayer(created);
@@ -133,7 +140,7 @@ class Game extends JPanel implements KeyListener {
     				characterSelectedCount++;
     				
     				Character created = new Character ("belle", 3, 0, (trainStartX + trainCarLength * 3) + mainTrain.getTrainCar(3).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
-    				
+    				created.setImage(tucoImg);
     				finalchar.add(created);
     				
     				mainTrain.getTrainCar(3).getPlatform(0).addPlayer(created);
@@ -154,7 +161,7 @@ class Game extends JPanel implements KeyListener {
     				characterSelectedCount++;
     				
     				Character created = new Character ("belle", 4, 0, (trainStartX + trainCarLength * 4) + mainTrain.getTrainCar(4).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
-    				
+    				created.setImage(djangoImg);
     				finalchar.add(created);
     				
     				mainTrain.getTrainCar(4).getPlatform(0).addPlayer(created);
@@ -166,7 +173,7 @@ class Game extends JPanel implements KeyListener {
     				characterSelectedCount++;
     				
     				Character created = new Character ("belle", 3, 0, (trainStartX + trainCarLength * 3) + mainTrain.getTrainCar(3).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
-    				
+    				created.setImage(djangoImg);
     				finalchar.add(created);
     				
     				mainTrain.getTrainCar(3).getPlatform(0).addPlayer(created);
@@ -186,7 +193,7 @@ class Game extends JPanel implements KeyListener {
     				characterSelectedCount++;
     				
     				Character created = new Character ("belle", 4, 0, (trainStartX + trainCarLength * 4) + mainTrain.getTrainCar(4).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
-    				
+    				created.setImage(ghostImg);
     				finalchar.add(created);
     				
     				mainTrain.getTrainCar(4).getPlatform(0).addPlayer(created);
@@ -198,7 +205,7 @@ class Game extends JPanel implements KeyListener {
     				characterSelectedCount++;
     				
     				Character created = new Character ("belle", 3, 0, (trainStartX + trainCarLength * 3) + mainTrain.getTrainCar(3).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
-    				
+    				created.setImage(ghostImg);
     				finalchar.add(created);
     				
     				mainTrain.getTrainCar(3).getPlatform(0).addPlayer(created);
@@ -218,7 +225,7 @@ class Game extends JPanel implements KeyListener {
     				characterSelectedCount++;
     				
     				Character created = new Character ("belle", 4, 0, (trainStartX + trainCarLength * 4) + mainTrain.getTrainCar(4).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
-    				
+    				created.setImage(docImg);
     				finalchar.add(created);
     				
     				mainTrain.getTrainCar(4).getPlatform(0).addPlayer(created);
@@ -230,7 +237,7 @@ class Game extends JPanel implements KeyListener {
     				characterSelectedCount++;
     				
     				Character created = new Character ("belle", 3, 0, (trainStartX + trainCarLength * 3) + mainTrain.getTrainCar(3).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
-    				
+    				created.setImage(docImg);
     				finalchar.add(created);
     				
     				mainTrain.getTrainCar(3).getPlatform(0).addPlayer(created);
@@ -250,7 +257,7 @@ class Game extends JPanel implements KeyListener {
     				characterSelectedCount++;
     				
     				Character created = new Character ("belle", 4, 0, (trainStartX + trainCarLength * 4) + mainTrain.getTrainCar(4).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
-    				
+    				created.setImage(cheyenneImg);
     				finalchar.add(created);
     				
     				mainTrain.getTrainCar(4).getPlatform(0).addPlayer(created);
@@ -262,7 +269,7 @@ class Game extends JPanel implements KeyListener {
     				characterSelectedCount++;
     				
     				Character created = new Character ("belle", 3, 0, (trainStartX + trainCarLength * 3) + mainTrain.getTrainCar(3).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
-    				
+    				created.setImage(cheyenneImg);
     				finalchar.add(created);
     				
     				mainTrain.getTrainCar(3).getPlatform(0).addPlayer(created);
@@ -285,7 +292,7 @@ class Game extends JPanel implements KeyListener {
     		
     		for(int x = 0; x < finalchar.size(); x++) {
     			Character tempChar = finalchar.get(0);
-    			g.drawImage(tempChar, tempChar.getX(), tempChar.getY(), this);
+    			g.drawImage(tempChar.getImage(), tempChar.getX(), tempChar.getY(), this);
     		}
     	}
     }
