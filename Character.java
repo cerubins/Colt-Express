@@ -1,3 +1,4 @@
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -6,11 +7,10 @@ public class Character extends Player{
 
 	
 	private String name;
-	private String playerImage;
+	private Image playerImage;
 	private ArrayList<Bag> bags = new ArrayList<Bag>();
 	private ArrayList<Ruby> rubies = new ArrayList<Ruby>();
 	private ArrayList<LockBox> lockboxes = new ArrayList<LockBox>();
-	private ArrayList <ActionCard> cardInventory = new ArrayList <ActionCard> ();
 	private int x, y;
 	
 	public Character(String n, int c, int le, int x, int y){
@@ -18,32 +18,18 @@ public class Character extends Player{
 		currentLevel = le;
 		name = n;
 		
-		switch(n){
-			case "django":
-				playerImage = "images/Django_Idle";
-				break;
-			case "ghost":
-				playerImage = "images/Ghost_Idle";
-				break;
-			case "cheyenne":
-				playerImage = "images/Cheyenne_Idle";
-				break;
-			case "tuco":
-				playerImage = "images/Tuco_Idle";
-				break;
-			case "doc":
-				playerImage = "images/Doc_Idle";
-				break;
-			case "belle":
-				playerImage = "images/Belle_Idle";
-				break;
-		}
 		
-		for (int i = 0; i < 6; i++) {
-			
-			cardInventory.add(new ActionCard ("bullet"));
-			
-		}
+	}
+	
+	public void setImage (Image img) {
+		
+		playerImage = img;
+		
+	}
+	
+	public Image getImage () {
+		
+		return playerImage;
 		
 	}
 	
@@ -56,18 +42,6 @@ public class Character extends Player{
 	public int getY () {
 		
 		return y;
-		
-	}
-	
-	public ActionCard getBulletCard () {
-		
-		if (cardInventory.size () > 0) {
-			
-			return cardInventory.remove (0);
-			
-		}
-		
-		return null;
 		
 	}
 	
@@ -159,3 +133,4 @@ public class Character extends Player{
 	}
 	
 }
+
