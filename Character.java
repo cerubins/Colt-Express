@@ -13,11 +13,12 @@ public class Character extends Player{
 	private ArrayList<LockBox> lockboxes = new ArrayList<LockBox>();
 	private int x, y;
 	
-	public Character(String n, int c, int le, int x, int y){
+	public Character(String n, int c, int le, int x1, int y1){
 		currentCar = c;
 		currentLevel = le;
 		name = n;
-		
+		x = x1;
+		y = y1;
 		
 	}
 	
@@ -133,4 +134,5 @@ public class Character extends Player{
 	}
 	
 }
+
 
