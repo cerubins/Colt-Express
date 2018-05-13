@@ -169,13 +169,17 @@ public class Round {
 						
 					}
 					
-					if(up)
+					if(!up)
 					{
-						toPut.setUp(true);
+						toPut.setUp(false);
+					}
+					else if(cList.get(j).getName().equals("ghost") && i == 0)
+					{
+						toPut.setUp(false);
 					}
 					else
 					{
-						toPut.setUp(false);
+						toPut.setUp(true);
 					}
 					
 					toPut.setCharacter( cList.get(j) );
@@ -776,7 +780,7 @@ public class Round {
 					}
 					
 				}
-				Character selected = new Character ("", car, car);
+				Character selected = new Character ("", car, car, car, car);
 				out.println(printShootOptions(possibleShoots));
 				int sel = sc.nextInt();
 				String str = shootSelections.get(sel);
