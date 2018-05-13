@@ -5,6 +5,7 @@ import java.util.Queue;
 import java.util.Stack;
 import java.util.TreeMap;
 import java.util.Scanner;
+
 import static java.lang.System.*;
 
 public class Round {
@@ -23,13 +24,17 @@ public class Round {
 	
 	private TreeMap <Character, ArrayList <ActionCard>> draw = new TreeMap <Character, ArrayList <ActionCard>> ();
 	
-	private RoundCard roundCard;
+	private RoundCard roundCard = new RoundCard ("aloneInCar:StealOneBag", "1 1 0 1", 4, true);
 	
-	private TreeMap<Integer, String> shootSelections = new TreeMap<>();
+	private TreeMap<Integer, String> shootSelections = new TreeMap<Integer, String>();
+	
+	private TreeMap<Integer, String> moveSelections = new TreeMap<Integer, String>();
+	
+	private TreeMap<Integer, String> punchSelections = new TreeMap<Integer, String>();
 	
 	private String [] roundCardWhatItDoes;
 	
-	public Round (Train t, ArrayList <Character> c, TreeMap<Character, ArrayList<ActionCard>> h, TreeMap <Character, ArrayList <ActionCard>> bC, TreeMap <Character, ArrayList <ActionCard>> dis, TreeMap <Character, ArrayList <ActionCard>> dra) { // NEED TO PASS EVERYTHING IN HERE!!
+	public Round (Train t, ArrayList <Character> c, TreeMap<Character, ArrayList<ActionCard>> h, TreeMap <Character, ArrayList <ActionCard>> bC, TreeMap <Character, ArrayList <ActionCard>> dis, TreeMap <Character, ArrayList <ActionCard>> dra, RoundCard rc) { // NEED TO PASS EVERYTHING IN HERE!!
 		
 		tr = t;
 		
@@ -45,13 +50,18 @@ public class Round {
 		
 		sc = new Scanner(in);
 		
+		roundCard = rc;
+		
+	}
+	
+	public RoundCard getRoundCard()
+	{
+		return roundCard;
 	}
 	
 	public void First () { // PUTS 6 CARDS IN HAND AND 4 IN DRAW PILE, PUT 6 BULLET CARDS FOR EACH CHARACTER (INCLUDING MARSHALL, WHO IS A CHARACTER BUT NOT PLAYABLE)
 		
-		RoundCardSelector rs = new RoundCardSelector ();
-		
-		roundCard = rs.select ();
+		System.out.println(roundCard.getTurns ());
 		
 		for (int i = 0; i < cList.size (); i++) {
 			
@@ -82,7 +92,42 @@ public class Round {
 			bulletCards.put (cList.get (i), temp);
 			
 		}
-		
+		for (Character c : hands.keySet())
+		{
+			if (c.getName().equals("doc"))
+			{
+				hands.get(c).add(draw.get(c).remove(0));
+			}
+		}
+		for (Character c : hands.keySet())
+		{
+
+			while (hands.get(c).size()<6 && !c.getName().equals("doc"))
+			{
+				if (draw.get(c).size()==0)
+				{
+					for (int x = discard.get(c).size()-1; x>=0; x--)
+					{
+						draw.get(c).add(discard.get(c).remove(x));
+					}
+					Collections.shuffle(draw.get(c));
+				}
+				hands.get(c).add(draw.get(c).remove(0));
+			}
+			while (hands.get(c).size()<7 && c.getName().equals("doc"))
+			{
+				if (draw.get(c).size()==0)
+				{
+					for (int x = discard.get(c).size()-1; x>=0; x--)
+					{
+						draw.get(c).add(discard.get(c).remove(x));
+					}
+					Collections.shuffle(draw.get(c));
+				}
+				hands.get(c).add(draw.get(c).remove(0));
+			}
+			
+		}
 	}
 	
 	private ArrayList <ActionCard> getTopSixFirst (ArrayList <ActionCard> c) {
@@ -91,7 +136,7 @@ public class Round {
 		
 		for (int i = 0; i < 6; i++) {
 			
-			toReturn.add (c.remove (i));
+			toReturn.add (c.remove (0));
 			
 		}
 		
@@ -103,7 +148,7 @@ public class Round {
 		
 		//1 is up, 0 is down, 2 reverse
 		
-		int numTurns = roundCard.getNumTurns();
+	//	int numTurns = roundCard.getNumTurns();
 		
 		ArrayList<String> read = setIndex(roundCard.getTurns());
 		
@@ -111,7 +156,7 @@ public class Round {
 		
 		String desc = roundCard.getWhatItDoes();
 		
-		for(int i = 0; i < numTurns; i++)
+		for(int i = 0; i < roundCard.getNumTurns (); i++)
 		{
 			
 			boolean up = true;
@@ -124,16 +169,18 @@ public class Round {
 			
 			if(read.get(i).equals("2"))
 			{
-				for(int j = cList.size(); j > 0; j--)
+				for(int j = cList.size()-1; j >= 0; j--)
 				{
+					
+					if (!cList.get(j).getName ().equals("marshall")) {
 					//prompt player (reverse) GIVE PLAYER OPTIONS FOR AVAILABLE CARDS IN HAND HERE
 					
 						ActionCard toPut = chooseToPlayCard (cList.get (j));
 						
-						for(int k = hands.get( cList.get(j) ).size(); k > 0; k--)
+						for(int k = hands.get( cList.get(j) ).size()-1; k > 0; k--)
 						{
 							
-							if(hands.get( cList.get(j) ).get(k).getWhatItDoes().equals("prompted response"))//FIX!!!
+							if(hands.get( cList.get(j) ).get(k).getWhatItDoes().equals(toPut.getWhatItDoes()))//FIX!!!
 							{
 								
 								toPut = hands.get( cList.get(j) ).remove(k);
@@ -144,7 +191,7 @@ public class Round {
 						}
 						
 						reel.add(toPut);
-						
+					}	
 					
 				}
 				
@@ -153,6 +200,8 @@ public class Round {
 			{
 				for(int j = 0; j < cList.size(); j++)
 				{
+					
+					if (!cList.get(j).getName ().equals("marshall")) {
 					//prompt player GIVE PLAYER OPTIONS FOR AVAILABLE CARDS IN HAND HERE
 					ActionCard toPut = chooseToPlayCard (cList.get (j));
 					
@@ -169,33 +218,46 @@ public class Round {
 						
 					}
 					
-					if(!up)
+					if(up)
 					{
-						toPut.setUp(false);
-					}
-					else if(cList.get(j).getName().equals("ghost") && i == 0)
-					{
-						toPut.setUp(false);
+						toPut.setUp(true);
 					}
 					else
 					{
-						toPut.setUp(true);
+						toPut.setUp(false);
 					}
 					
 					toPut.setCharacter( cList.get(j) );
 					
-					reel.add(toPut);
+						reel.add(toPut);
+					}
+					
 				}
 				
 			}
 			
 		}
 		
+		Stack temp = new Stack ();
 		
-		
-		for(int i = 0; i < reel.size(); i++)
+		while (!reel.isEmpty())
 		{
 			ActionCard ac = reel.remove ();
+			
+			if (discard.containsKey (ac.getCharacter())) {
+				
+				discard.get (ac.getCharacter()).add (ac);
+				
+			}
+			else {
+				
+				ArrayList <ActionCard> list = new ArrayList <ActionCard> ();
+				
+				list.add (ac);
+				
+				discard.put (ac.getCharacter(), list);
+				
+			}
 			
 			action (ac, ac.getCharacter());
 		}
@@ -213,6 +275,7 @@ public class Round {
 			options.add (hands.get (player).get (i));
 			
 		}
+		System.out.println(player.getName()+"'s turn:");
 		
 		for (int i = 0; i < options.size (); i++) {
 			
@@ -223,12 +286,12 @@ public class Round {
 		Scanner input = new Scanner (System.in);
 		
 		int index = input.nextInt() - 1;
-		
+		input.nextLine();
 		for (int i = 0; i < hands.get(player).size (); i++) {
 			
 			if (i == index) {
 				
-				return hands.get(player).get (i);
+				return hands.get(player).remove (i);
 				
 			}
 			
@@ -259,7 +322,7 @@ public class Round {
 				
 			} break;
 			
-			case "atopCarAndMarshall:DropBag": {
+			case "stopCarAndMarshall:DropBag": {
 				
 				for (int i = 0; i <= 4; i++) {
 					
@@ -346,7 +409,7 @@ public class Round {
 					
 					for (int j = 0; j < tr.getTrainCar(i).getPlatform(0).getCharacterList().size(); j++) {
 						
-						if (tr.getTrainCar(i).getPlatform(0).getCharacterList().get (i).getName().equals("marshall")) {
+						if (tr.getTrainCar(i).getPlatform(0).getCharacterList().get (j).getName().equals("marshall")) {
 							
 							inThisCar = true;
 							
@@ -505,16 +568,25 @@ public class Round {
 	
 	public void startOfRound () 
 	{
-		RoundCardSelector rs = new RoundCardSelector ();
-		roundCard = rs.select ();
+		
+		out.println(roundCard.getTurns());
 	//hands, discard, draw
 		for (Character c: hands.keySet())
 		{
+			
 			for (int x = hands.get(c).size()-1; x>=0 ; x--)
 			{
 				if (hands.get(c).get(x).getWhatItDoes().equals("bullet"))
 				{
-					discard.get(c).add(hands.get(c).remove(x));
+					
+					if (discard.containsKey(c) && discard.get(c).size()!=0)
+						discard.get(c).add(hands.get(c).remove(x));
+					else
+					{
+						ArrayList<ActionCard> list = new ArrayList<>();
+						list.add(hands.get(c).remove(x));
+						discard.put(c, list);
+					}
 				}
 			}
 		}
@@ -523,25 +595,31 @@ public class Round {
 		
 		for (int i = 0; i < keySet.size (); i++)
 		{
+			
+			System.out.println ("CHOOSE");
+			
 			Character c = keySet.get(i);
 			while (hands.get(c).size()>0)
 			{
-				
-				String str = "Which would you like to discard?\n";
-				for (int x = 0; x<hands.get(c).size(); x++)
+				if (!c.getName().equals("marshall"))
 				{
-					str = str +(x+1)+".\t"+hands.get(c).get(x).getWhatItDoes()+"\n";
+					String str = "Which would "+c.getName()+" like to discard?\n";
+					for (int x = 0; x<hands.get(c).size(); x++)
+					{
+						str = str +(x+1)+".\t"+hands.get(c).get(x).getWhatItDoes()+"\n";
+					}
+					str = str+"0. Discard none";
+					out.println(str);
+					int choice = sc.nextInt();
+					sc.nextLine();
+					if (choice == 0)
+					{
+						break;
+					}
+					discard.get(c).add(hands.get(c).remove(choice-1));	
 				}
-				str = str+"0. Discard none";
-				out.println(str);
-				int choice = sc.nextInt();
-				if (choice == 0)
-				{
-					break;
-				}
-				discard.get(c).add(hands.get(c).remove(choice-1));	
-				}
-			
+			}
+		
 			while (hands.get(c).size()<6 && !c.getName().equals("doc"))
 			{
 				if (draw.get(c).size()==0)
@@ -571,7 +649,8 @@ public class Round {
 	}
 	public String printPunchOptions(Character player)
 	{
-		String str = "Who would you like to punch? You cannot punch yourself.\n";
+		punchSelections = new TreeMap<Integer, String>();
+		String str = "Who would "+player.getName()+" like to punch?\n";
 		int car = player.getCurrentCar();
 		ArrayList<Character> list = tr.getTrainCar(car).getPlatform(player.getLevel()).getCharacterList();
 		for (int x = 0; x <list.size(); x++)
@@ -587,19 +666,20 @@ public class Round {
 			for (int x = 0; x<list.size(); x++)
 			{
 				str = str+(x+1)+".\t"+list.get(x).getName()+"\n";
+				punchSelections.put(x+1, list.get(x).getName());
 			}
 		}
 		else
 		{
-			str = "Sorry, you can't punch here.";
+			str = "Sorry, "+player.getName()+" can't punch here.";
 		}
 		return str;
 	}
 	
 	
-	public String printLootOptions(ArrayList<InventoryTwo> list)
+	public String printLootOptions(ArrayList<InventoryTwo> list, Character player)
 	{
-		String str = "What would you like to loot?\n";
+		String str = "What would "+player.getName()+" like to loot?\n";
 		if (list.size()>0)
 		{
 			for (int x = 0; x<list.size(); x++)
@@ -608,15 +688,15 @@ public class Round {
 			}
 		}
 		else
-			str = "Sorry, you can't loot here.";
+			str = "Sorry, "+player.getName()+" can't loot here.";
 		return str;
 	}
 	
 	
-	public String printShootOptions(TreeMap<Integer, ArrayList<Character>> map)
+	public String printShootOptions(TreeMap<Integer, ArrayList<Character>> map, Character player)
 	{
 		shootSelections = new TreeMap<>();
-		String str = "Who would you like to shoot?\n";
+		String str = "Who would "+player.getName()+" like to shoot?\n";
 		int count = 1;
 		for (int x : map.keySet())
 		{
@@ -628,59 +708,64 @@ public class Round {
 				count++;
 			}
 		}
-		return str;
+		if (shootSelections.size ()>0)
+			return str;
+		else 
+			return "Sorry, "+player.getName()+" can't shoot";
 	}
 	
 	
 	public String printMoveOptions(Character player)
 	{
-		String str = "Which way would you like to move? (type in exactly as printed)\n";
+		moveSelections = new TreeMap<>();
+		String str = "Which way would "+player.getName()+" like to move?\n";
 		int level = player.currentLevel;
 		int currentLoc = player.currentCar;
+		int count = 1; 
+		
 		if (level == 0) {
 			
 			if (currentLoc - 1 >= 0) 
 			{
-				str = str+"1 left\n";
+				str = str+count +".\t1 left\n";
+				moveSelections.put(count, "1 left");
+				count++;
 			}
-			else if (currentLoc + 1 >= 0 && currentLoc + 1 <= 4) 
+			if (currentLoc + 1 >= 0 && currentLoc + 1 <= 4) 
 			{
-				str = str+"1 right\n";
+				str = str+count+".\t1 right\n";
+				moveSelections.put(count, "1 right");
+				count++;
 			}
 			else {
 				
-				tr.getTrainCar(currentLoc).getPlatform(level).addPlayer (player);
+				//tr.getTrainCar(currentLoc).getPlatform(level).addPlayer (player);
 				
-				player.updateCurrentCar(currentLoc);
+				//player.updateCurrentCar(currentLoc);
 				
 			}
 			
 		}
 		else {
+
+			for (int x = 1; x<4; x++)
+			{
+				if (currentLoc -x >=0)
+				{
+					str = str+count+".\t "+x+" left\n";
+					moveSelections.put(count, x+" left");
+					count++;
+					
+				}
+				if (currentLoc+x>=0 && currentLoc +x<=4)
+				{
+					str = str+count+".\t "+x+" right\n";
+					moveSelections.put(count, x+" right");
+					count++;
+				}
+			}
 			
-			if ( currentLoc - 1 >= 0) {
-				str = str+"1 left\n";
-			}
-			if ( currentLoc - 2 >= 0) {
-				
-				str = str+"2 left\n";
-			}
-			if ( currentLoc - 3 >= 0) {
-				str = str+"3 left\n";
-			}
-			if (currentLoc + 1 >= 0 && currentLoc + 1 <= 4) {
-				
-				str = str+"1 right \n";
-			}
-			if (currentLoc + 2 >= 0 && currentLoc + 2 <= 4) {
-				
-				str = str+"3 right \n";
-				
-			}
-			if (currentLoc + 3 >= 0 && currentLoc + 3 <= 4) {
-				
-				str = str+"3 right \n";
-			}
+			
 		}
 			return str;
 	}
@@ -692,30 +777,90 @@ public class Round {
 			
 			ArrayList<Character> list = tr.getTrainCar(car).getPlatform(player.getLevel()).getCharacterList();
 			//ASK PLAYER FOR PLAYER TO PUNCH, PUT IN STRING 'VICTIM', ask player for direction to punch, put in string 'direction'
-			out.println(printPunchOptions(player));
-			String victim = sc.nextLine();
-			out.println("Which direction would you like to punch the victim?");
-			String direction = sc.nextLine();
+			String s = printPunchOptions(player);
+			out.println(s);
+			if (!s.equals("Sorry, "+player.getName()+" can't punch here."))
+			{
+			int a = sc.nextInt();
+			sc.nextLine();
+			String victim = punchSelections.get(a);
 			for(int x = 0; x < list.size(); x++){
 				if(list.get(x).getName().equals(victim)){
-					Character vic = player.currentPlat.removePlayer(victim);
+					Character vic = tr.getTrainCar(player.getCurrentCar()).getPlatform(player.currentLevel).removePlayer(victim);
 					
 					if(player.getName().equals("cheyenne")){
 						player.addBags(vic.removeBag());
 					}
+					String d = "";
+					out.println("Which direction would "+player.getName()+" like to punch the victim?");
+					if (vic.getCurrentCar () >= 1 && vic.getCurrentCar () <= 3) {
+						
+						out.println ("1. 1 left");
+						out.println ("2. 1 right");
+						String str1 = sc.nextLine ();
+						
+						if (str1.equals ("1")) {
+							
+							d = "left";
+							
+						}
+						else {
+							
+							d = "right";
+							
+						}
+						
+					}
+					else if (vic.getCurrentCar () <= 3) {
+						
+						out.println ("1. 1 right");
+						String str1 = sc.nextLine ();
+						
+						if (str1.equals ("1")) {
+							
+							d = "right";
+							
+						}
+						else {
+							
+							d = "right";
+							
+						}
+						
+					}
+					else if (vic.getCurrentCar () >= 1) {
+						
+						out.println ("1. 1 left");
+						String str1 = sc.nextLine ();
+						
+						if (str1.equals ("1")) {
+							
+							d = "left";
+							
+						}
+						else {
+							
+							d = "left";
+							
+						}
+						
+					}
 					
+					
+					String direction = d;
 					if(direction.equals("right")){
 						tr.getTrainCar(player.getCurrentCar()+1).getPlatform(player.currentLevel).addPlayer(vic);
 						
-						player.updateCurrentCar(player.getCurrentCar()+1);
+						vic.updateCurrentCar(vic.getCurrentCar()+1);
 						
 					}
 					else if(direction.equals("left")){
 						tr.getTrainCar(player.getCurrentCar()-1).getPlatform(player.currentLevel).addPlayer(vic);
-						player.updateCurrentCar(player.getCurrentCar()-1);
+						vic.updateCurrentCar(vic.getCurrentCar()-1);
 						
 					}
 				}
+			}
 			}
 		} break;	
 		case "shoot": {
@@ -780,28 +925,44 @@ public class Round {
 					}
 					
 				}
-				Character selected = new Character ("", car, car, car, car);
-				out.println(printShootOptions(possibleShoots));
-				int sel = sc.nextInt();
-				String str = shootSelections.get(sel);
-				for (int x : possibleShoots.keySet())
+				Character selected = new Character ("", car, car, car, car);//FIX THIS
+				for (int i : possibleShoots.keySet())
 				{
-					for (int i =0; i<possibleShoots.get(x).size(); i++)
+					for (int x = 0; x<possibleShoots.get(i).size(); x++)
 					{
-						if(possibleShoots.get(x).get(i).getName().equals(str))
+						if (possibleShoots.get(i).get(x).getName().equals("marshall"))
 						{
-							selected = possibleShoots.get(x).get(i);
+							possibleShoots.get(i).remove(x);
 							break;
 						}
 					}
-
 				}
+				String s = printShootOptions(possibleShoots, player);
+				out.println(s);
+				if (!s.equals("Sorry, "+player.getName()+" can't shoot"))
+				{
+					int sel = sc.nextInt();
+					sc.nextLine();
+					String str = shootSelections.get(sel);
+					for (int x : possibleShoots.keySet())
+					{
+						for (int i =0; i<possibleShoots.get(x).size(); i++)
+						{
+							if(possibleShoots.get(x).get(i).getName().equals(str))
+							{
+								selected = possibleShoots.get(x).get(i);
+								break;
+							}
+						}
+					}
+				
 			 // GIVE OPTIONS ON WHOM TO SHOOT BASED ON MAP POSSIBLE SHOOTS, SELECT CHARACTER TO SHOOT AND POINT SELECTED AT IT (INITIALIZED ONLY TO PREVENT ERROR FOR NOW, DOESN'T ACTUALLY WORK)
 			
-			hands.get (selected).add(bulletCards.get(player).remove(0));
-				Character victim = new Character ("", car, car, car, car); // GIVE OPTIONS ON WHOM TO SHOOT BASED ON MAP POSSIBLE SHOOTS, SELECT CHARACTER TO SHOOT AND POINT SELECTED AT IT (INITIALIZED ONLY TO PREVENT ERROR FOR NOW, DOESN'T ACTUALLY WORK)
+				hands.get (selected).add(bulletCards.get(player).remove(0));
+				Character victim = selected;
+			//	Character victim = new Character ("", car, car, car, car); // GIVE OPTIONS ON WHOM TO SHOOT BASED ON MAP POSSIBLE SHOOTS, SELECT CHARACTER TO SHOOT AND POINT SELECTED AT IT (INITIALIZED ONLY TO PREVENT ERROR FOR NOW, DOESN'T ACTUALLY WORK)
 				
-				hands.get (victim).add (bulletCards.get (player).remove (0));
+			//	hands.get (sel).add (bulletCards.get (player).remove (0));
 				
 				if (player.getName ().equals ("django")) {
 					
@@ -850,6 +1011,7 @@ public class Round {
 						}
 					
 					}
+				}
 					
 				}
 				
@@ -865,7 +1027,9 @@ public class Round {
 			
 			tr.getTrainCar (currentLoc).getPlatform(level).removePlayer(player.getName());
 			out.println(printMoveOptions(player));
-			d = sc.nextLine();
+			int j = sc.nextInt();
+			sc.nextLine();
+			d = moveSelections.get(j);
 			
 			if (level == 0) {
 				
@@ -885,13 +1049,8 @@ public class Round {
 					player.updateCurrentCar(currentLoc + 1);
 					
 				}
-				else {
-					
-					tr.getTrainCar(currentLoc).getPlatform(level).addPlayer (player);
-					
-					player.updateCurrentCar(currentLoc);
-					
-				}
+				
+				
 				
 			}
 			else {
@@ -926,13 +1085,21 @@ public class Round {
 					player.updateCurrentCar(currentLoc + 2);
 					
 				}
-				else {
+				else if (d.equals ("3 left")  && currentLoc - 3 >= 0) {
 					
-					tr.getTrainCar(currentLoc).getPlatform(level).addPlayer (player);
+					tr.getTrainCar(currentLoc - 3).getPlatform(level).addPlayer (player);
 					
-					player.updateCurrentCar(currentLoc);
+					player.updateCurrentCar(currentLoc - 3);
 					
 				}
+				else if (d.equals("3 right") && currentLoc + 3 >= 0 && currentLoc + 3 <= 4) {
+					
+					tr.getTrainCar(currentLoc + 3).getPlatform(level).addPlayer (player);
+					
+					player.updateCurrentCar(currentLoc + 3);
+					
+				}
+				
 				
 			}
 			
@@ -956,6 +1123,8 @@ public class Round {
 			
 			tr.getTrainCar(player.getCurrentCar ()).getPlatform (level).removePlayer(player.getName());
 			
+		//	System.out.println(player.getName());
+			
 			tr.getTrainCar(player.getCurrentCar ()).getPlatform (changeTo).addPlayer (player);
 			
 			player.updateLevel(changeTo);
@@ -977,12 +1146,18 @@ public class Round {
 				list.add(tr.getTrainCar(car).getPlatform(player.getLevel()).getInventory().getLockBoxes().get(x));
 			}
 			//ADDS ALL INVENTORY TO ARRAYLIST OF INVENTORY
-			out.println(printLootOptions(list));
-			int sel = sc.nextInt();
-			sel--;
+			String s = printLootOptions(list, player);
+			out.println(s);
+			
 			//SHOW OPTIONS
-			InventoryTwo selected = new InventoryTwo(list.get(sel).getType());
-			tr.getTrainCar(car).getPlatform(player.getLevel()).getInventory().removeInventory(selected, player);
+			if (!s.equals("Sorry, "+player.getName ()+" can't loot here."))
+			{
+				int sel = sc.nextInt();
+				sc.nextLine();
+				sel--;
+				InventoryTwo selected = new InventoryTwo(list.get(sel).getType());
+				tr.getTrainCar(car).getPlatform(player.getLevel()).getInventory().removeInventory(selected, player);
+			}
 			
 		}break; 
 		case "marshall": { // NEED TO FIX BY CHECKING IF OTHER CHARACTERS IN SAME ROOM AS MARSHALL AND MOVING THEM TO THE ROOF
@@ -1018,7 +1193,7 @@ public class Round {
 			
 			// ASK PLAYER FOR DIRECTION TO MOVE MARSHALL, PUT "LEFT" OR "RIGHT" (FORWARD OR BACKWARD RESPECTIVELY) (LOWERCASE) IN STRING d
 			
-			out.println("Which way would you like to move the Marshall?");
+			out.println("Which way would "+player.getName ()+" like to move the Marshall?");
 			
 			String d = "";
 			
@@ -1098,7 +1273,9 @@ public class Round {
 					if (!tr.getTrainCar(currentLoc).getPlatform(level).getCharacterList().get(x).getName().equals("marshall"))
 					{
 						tr.getTrainCar(currentLoc).getPlatform(level).getCharacterList().get(x).updateLevel(level+1);
-						hands.get(tr.getTrainCar(currentLoc).getPlatform(level).getCharacterList().get(x)).add(new ActionCard("bullet",null)); // *ACTIONCARD (BULLET CARD) WITH NULL AS CHARACTER IS NEUTRAL CARD!!*
+						Character temp = tr.getTrainCar(currentLoc).getPlatform(level).getCharacterList().remove(x);
+						tr.getTrainCar(currentLoc).getPlatform(level+1).addPlayer(temp);
+						hands.get(temp).add(new ActionCard("bullet",null)); // *ACTIONCARD (BULLET CARD) WITH NULL AS CHARACTER IS NEUTRAL CARD!!*
 					}
 				}
 			}
