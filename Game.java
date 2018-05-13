@@ -35,7 +35,7 @@ class Game extends JPanel implements KeyListener {
 	
 	private static TreeMap <Character, ArrayList <ActionCard>> draw = new TreeMap <Character, ArrayList <ActionCard>> ();
 	
-	private int trainStartX = 329, trainCarLength = 314, trainCarHeight = 114;
+	private int trainStartX = 329, trainCarLength = 314, trainCarHeight = 114, characterSelectedCount = 0;
     
     public Game() throws IOException {
         this.setPreferredSize(new Dimension(500, 500));
@@ -85,6 +85,7 @@ class Game extends JPanel implements KeyListener {
     				System.out.println("CABOOSE SELECTED FOR CHAR 1");
     				char1Selected = true;
     				secondarySelect = false;
+    				characterSelectedCount++;
     				
     				Character created = new Character ("belle", 4, 0, (trainStartX + trainCarLength * 4) + mainTrain.getTrainCar(4).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
     				
@@ -96,6 +97,7 @@ class Game extends JPanel implements KeyListener {
     				System.out.println(" FRONT OF CABOOSE SELECTED FOR CHAR 1");
     				char1Selected = true;
     				secondarySelect = false;
+    				characterSelectedCount++;
     				
     				Character created = new Character ("belle", 3, 0, (trainStartX + trainCarLength * 3) + mainTrain.getTrainCar(3).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
     				
@@ -116,6 +118,7 @@ class Game extends JPanel implements KeyListener {
     				System.out.println("CABOOSE SELECTED FOR CHAR 2");
     				char2Selected = true;
     				secondarySelect = false;
+    				characterSelectedCount++;
     				
     				Character created = new Character ("belle", 4, 0, (trainStartX + trainCarLength * 4) + mainTrain.getTrainCar(4).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
     				
@@ -127,6 +130,8 @@ class Game extends JPanel implements KeyListener {
     				System.out.println(" FRONT OF CABOOSE SELECTED FOR CHAR 2");
     				char2Selected = true;
     				secondarySelect = false;
+    				characterSelectedCount++;
+    				
     				Character created = new Character ("belle", 3, 0, (trainStartX + trainCarLength * 3) + mainTrain.getTrainCar(3).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
     				
     				finalchar.add(created);
@@ -146,6 +151,7 @@ class Game extends JPanel implements KeyListener {
     				System.out.println("CABOOSE SELECTED FOR CHAR 3");
     				char3Selected = true;
     				secondarySelect = false;
+    				characterSelectedCount++;
     				
     				Character created = new Character ("belle", 4, 0, (trainStartX + trainCarLength * 4) + mainTrain.getTrainCar(4).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
     				
@@ -157,6 +163,7 @@ class Game extends JPanel implements KeyListener {
     				System.out.println(" FRONT OF CABOOSE SELECTED FOR CHAR 3");
     				char3Selected = true;
     				secondarySelect = false;
+    				characterSelectedCount++;
     				
     				Character created = new Character ("belle", 3, 0, (trainStartX + trainCarLength * 3) + mainTrain.getTrainCar(3).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
     				
@@ -176,6 +183,7 @@ class Game extends JPanel implements KeyListener {
     				System.out.println("CABOOSE SELECTED FOR CHAR 4");
     				char4Selected = true;
     				secondarySelect = false;
+    				characterSelectedCount++;
     				
     				Character created = new Character ("belle", 4, 0, (trainStartX + trainCarLength * 4) + mainTrain.getTrainCar(4).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
     				
@@ -187,6 +195,7 @@ class Game extends JPanel implements KeyListener {
     				System.out.println(" FRONT OF CABOOSE SELECTED FOR CHAR 4");
     				char4Selected = true;
     				secondarySelect = false;
+    				characterSelectedCount++;
     				
     				Character created = new Character ("belle", 3, 0, (trainStartX + trainCarLength * 3) + mainTrain.getTrainCar(3).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
     				
@@ -206,6 +215,7 @@ class Game extends JPanel implements KeyListener {
     				System.out.println("CABOOSE SELECTED FOR CHAR 5");
     				char5Selected = true;
     				secondarySelect = false;
+    				characterSelectedCount++;
     				
     				Character created = new Character ("belle", 4, 0, (trainStartX + trainCarLength * 4) + mainTrain.getTrainCar(4).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
     				
@@ -217,6 +227,7 @@ class Game extends JPanel implements KeyListener {
     				System.out.println(" FRONT OF CABOOSE SELECTED FOR CHAR 5");
     				char5Selected = true;
     				secondarySelect = false;
+    				characterSelectedCount++;
     				
     				Character created = new Character ("belle", 3, 0, (trainStartX + trainCarLength * 3) + mainTrain.getTrainCar(3).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
     				
@@ -236,6 +247,7 @@ class Game extends JPanel implements KeyListener {
     				System.out.println("CABOOSE SELECTED FOR CHAR 6");
     				char6Selected = true;
     				secondarySelect = false;
+    				characterSelectedCount++;
     				
     				Character created = new Character ("belle", 4, 0, (trainStartX + trainCarLength * 4) + mainTrain.getTrainCar(4).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
     				
@@ -247,6 +259,7 @@ class Game extends JPanel implements KeyListener {
     				System.out.println(" FRONT OF CABOOSE SELECTED FOR CHAR 6");
     				char6Selected = true;
     				secondarySelect = false;
+    				characterSelectedCount++;
     				
     				Character created = new Character ("belle", 3, 0, (trainStartX + trainCarLength * 3) + mainTrain.getTrainCar(3).getPlatform(0).getChracterList().size() * 62, trainCarHeight);
     				
@@ -261,7 +274,7 @@ class Game extends JPanel implements KeyListener {
     		}
     		secondarySelectChar = 'e';
     		
-    		if(char1Selected &&char2Selected &&char3Selected &&char4Selected &&char5Selected &&char6Selected) {
+    		if(characterSelectedCount == 4) {
     			characterSelectionMenu = false;
     			repaint();
     		}
