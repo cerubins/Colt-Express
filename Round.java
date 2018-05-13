@@ -1018,8 +1018,62 @@ public class Round {
 			
 			// ASK PLAYER FOR DIRECTION TO MOVE MARSHALL, PUT "LEFT" OR "RIGHT" (FORWARD OR BACKWARD RESPECTIVELY) (LOWERCASE) IN STRING d
 			
-			out.println("Which way would you like to move the Marshall? (left or right)");
-			String d = sc.nextLine();
+			out.println("Which way would you like to move the Marshall?");
+			
+			String d = "";
+			
+			if (marshall.getCurrentCar () >= 1 && marshall.getCurrentCar () <= 3) {
+				
+				out.println ("1. 1 left");
+				out.println ("2. 1 right");
+				String str1 = sc.nextLine ();
+				
+				if (str1.equals ("1")) {
+					
+					d = "left";
+					
+				}
+				else {
+					
+					d = "right";
+					
+				}
+				
+			}
+			else if (marshall.getCurrentCar () <= 3) {
+				
+				out.println ("1. 1 right");
+				String str1 = sc.nextLine ();
+				
+				if (str1.equals ("1")) {
+					
+					d = "right";
+					
+				}
+				else {
+					
+					d = "right";
+					
+				}
+				
+			}
+			else if (marshall.getCurrentCar () >= 1) {
+				
+				out.println ("1. 1 left");
+				String str1 = sc.nextLine ();
+				
+				if (str1.equals ("1")) {
+					
+					d = "left";
+					
+				}
+				else {
+					
+					d = "left";
+					
+				}
+				
+			}
 			
 			if (d.equals("left") && currentLoc - 1 >= 0) {
 				
