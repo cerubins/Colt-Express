@@ -283,7 +283,10 @@ class Game extends JPanel implements KeyListener {
     		g.drawImage(bg, 0, 0, this);
     		g.drawImage(trainImage, 0, bg.getHeight(this) - 470, this);
     		
-    		
+    		for(int x = 0; x < finalchar.size(); x++) {
+    			Character tempChar = finalchar.get(0);
+    			g.drawImage(tempChar, tempChar.getX(), tempChar.getY(), this);
+    		}
     	}
     }
 
