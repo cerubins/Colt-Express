@@ -34,9 +34,110 @@ public class Round {
 	
 	Character marshall = new Character ("marshall", 0, 0, 0, 0);
 	
+	
 	private String [] roundCardWhatItDoes;
 	
+	public void printTrain () {
+		
+		System.out.println ("\n");
+		
+		System.out.println ("ENGINE:\t\t\tCAR 1:\t\t\tCAR 2:\t\t\tCAR 3:\t\t\tCABOOSE:");
+				
+		int max1 = 0;
+		
+		int max0 = 0;
+		
+		for (int i = 0; i < tr.getTrain().size (); i++) {
+			
+			if (tr.getTrainCar(i).getPlatform(1).getCharacterList ().size () > max1) {
+				
+				max1 = tr.getTrainCar(i).getPlatform(1).getCharacterList ().size ();
+				
+			}
+			
+		}
+		
+		for (int i = 0; i < tr.getTrain().size (); i++) {
+			
+			if (tr.getTrainCar(i).getPlatform(0).getCharacterList ().size () > max0) {
+				
+				max0 = tr.getTrainCar(i).getPlatform(0).getCharacterList ().size ();
+				
+			}
+			
+		}
+		
+		for (int i = 0; i < max1; i++) {
+			
+			for (int j = 0; j < tr.getTrain ().size (); j++) {
+				
+				try {
+					
+					System.out.print (tr.getTrainCar(j).getPlatform(1).getCharacterList().get(i).getName () + "\t\t");
+					
+					if (tr.getTrainCar(j).getPlatform(1).getCharacterList().get(i).getName ().equals("doc") || tr.getTrainCar(j).getPlatform(1).getCharacterList().get(i).getName ().equals("django") || tr.getTrainCar(j).getPlatform(1).getCharacterList().get(i).getName ().equals("ghost")) {
+						
+						System.out.print ("\t");
+						
+					}
+					
+				}
+				catch (NullPointerException | IndexOutOfBoundsException e) {
+					
+					System.out.print ("\t\t\t");
+					
+				}
+				
+			}
+			
+			System.out.println ();
+			
+		}
+		
+		for (int i = 0; i < tr.getTrain ().size (); i++) {
+			
+			System.out.print ("-----\t\t\t");
+			
+		}
+		
+		System.out.println ();
+		
+		for (int i = 0; i < max0; i++) {
+			
+			for (int j = 0; j < tr.getTrain ().size (); j++) {
+				
+				try {
+					
+					System.out.print (tr.getTrainCar(j).getPlatform(0).getCharacterList().get(i).getName () + "\t\t");
+					
+					if (tr.getTrainCar(j).getPlatform(0).getCharacterList().get(i).getName ().equals("doc") || tr.getTrainCar(j).getPlatform(0).getCharacterList().get(i).getName ().equals("django") || tr.getTrainCar(j).getPlatform(0).getCharacterList().get(i).getName ().equals("ghost")) {
+						
+						System.out.print ("\t");
+						
+					}
+					
+				}
+				catch (NullPointerException | IndexOutOfBoundsException e) {
+					
+					System.out.print ("\t\t\t");
+					
+				}
+				
+			}
+			
+			System.out.println ();
+			
+		}
+		
+		System.out.println ("\n");
+		
+	}
+	
 	public Round (Train t, ArrayList <Character> c, TreeMap<Character, ArrayList<ActionCard>> h, TreeMap <Character, ArrayList <ActionCard>> bC, TreeMap <Character, ArrayList <ActionCard>> dis, TreeMap <Character, ArrayList <ActionCard>> dra, RoundCard rc) { // NEED TO PASS EVERYTHING IN HERE!!
+		
+		marshall.currentCar = 0;
+		
+		marshall.currentLevel = 0;
 		
 		tr = t;
 		
@@ -262,6 +363,8 @@ public class Round {
 				discard.put (ac.getCharacter(), list);
 				
 			}
+			
+			printTrain ();
 			
 			action (ac, ac.getCharacter());
 		}
@@ -656,7 +759,7 @@ public class Round {
 		punchSelections = new TreeMap<Integer, String>();
 		String str = "Who would "+player.getName()+" like to punch?\n";
 		int car = player.getCurrentCar();
-		ArrayList<Character> list = tr.getTrainCar(car).getPlatform(player.getLevel()).getCharacterList();
+		ArrayList<Character> list = (ArrayList<Character>) tr.getTrainCar(car).getPlatform(player.getLevel()).getCharacterList().clone ();
 		for (int x = 0; x <list.size(); x++)
 		{ 
 			if (list.get(x).getName().equals(player.getName()))
@@ -893,7 +996,9 @@ public class Round {
 						
 					}
 					
-					possibleShoots.put (player.currentCar, tr.getTrainCar(player.currentCar).getPlatform(shootLevel).getCharacterList());
+					// CLONE DON'T POINT
+					
+					possibleShoots.put (player.currentCar, (ArrayList<Character>) tr.getTrainCar(player.currentCar).getPlatform(shootLevel).getCharacterList().clone ());
 					
 				}
 				
@@ -901,13 +1006,13 @@ public class Round {
 					
 					if (player.currentCar - 1 >= 0 && tr.getTrainCar(player.currentCar - 1).getPlatform(player.currentLevel).getCharacterList().size () > 0) {
 						
-						possibleShoots.put (player.currentCar - 1, tr.getTrainCar(player.currentCar - 1).getPlatform(player.currentLevel).getCharacterList());
+						possibleShoots.put (player.currentCar - 1, (ArrayList<Character>) tr.getTrainCar(player.currentCar - 1).getPlatform(player.currentLevel).getCharacterList().clone ());
 					
 					}
 					
 					if (player.currentCar + 1 >= 0 && player.currentCar + 1 <= 4 && tr.getTrainCar(player.currentCar + 1).getPlatform(player.currentLevel).getCharacterList().size () > 0) {
 						
-						possibleShoots.put (player.currentCar + 1, tr.getTrainCar(player.currentCar + 1).getPlatform(player.currentLevel).getCharacterList());
+						possibleShoots.put (player.currentCar + 1, (ArrayList<Character>) tr.getTrainCar(player.currentCar + 1).getPlatform(player.currentLevel).getCharacterList().clone ());
 					
 					}
 					
@@ -919,7 +1024,7 @@ public class Round {
 						
 						if (tr.getTrainCar(i).getPlatform(player.currentLevel).getCharacterList().size () > 0) {
 							
-							possibleShoots.put (i, tr.getTrainCar(i).getPlatform(player.currentLevel).getCharacterList());
+							possibleShoots.put (i, (ArrayList<Character>) tr.getTrainCar(i).getPlatform(player.currentLevel).getCharacterList().clone());
 							
 							break;
 						}
@@ -930,7 +1035,7 @@ public class Round {
 						
 						if (tr.getTrainCar(i).getPlatform(player.currentLevel).getCharacterList().size () > 0) {
 							
-							possibleShoots.put (i, tr.getTrainCar(i).getPlatform(player.currentLevel).getCharacterList());
+							possibleShoots.put (i, (ArrayList<Character>) tr.getTrainCar(i).getPlatform(player.currentLevel).getCharacterList().clone ());
 							
 							break;
 							
@@ -1077,7 +1182,7 @@ public class Round {
 				
 				if (marshall.currentCar == player.currentCar && player.currentLevel == 0) {
 					
-					player = tr.getTrainCar(player.currentCar).getPlatform(player.currentLevel).removePlayer (player.getName());
+					tr.getTrainCar(player.currentCar).getPlatform(player.currentLevel).removePlayer (player.getName());
 					
 					tr.getTrainCar (player.currentCar).getPlatform(1).addPlayer(player);
 					
@@ -1136,6 +1241,22 @@ public class Round {
 				
 			}
 			
+			if (tr.getTrainCar(player.currentCar).getPlatform(0).getCharacterList().contains(marshall) && player.currentLevel == 0) {
+				
+				for (int i = 0; i < tr.getTrainCar(marshall.currentCar).getPlatform(0).getCharacterList().size(); i++) {
+					
+					if (!tr.getTrainCar(marshall.currentCar).getPlatform(0).getCharacterList().get (i).equals (marshall)) {
+						
+						Character tempC = tr.getTrainCar(marshall.currentCar).getPlatform(0).getCharacterList().remove (i);
+						
+						tr.getTrainCar(marshall.currentCar).getPlatform(1).addPlayer (tempC);
+						
+					}
+					
+				}
+				
+			}
+			
 		} break;
 		case "changeFloor": {
 			
@@ -1154,15 +1275,20 @@ public class Round {
 				
 			}
 			
-			tr.getTrainCar(player.getCurrentCar ()).getPlatform (level).removePlayer(player.getName());
+			if (changeTo == 1 || (changeTo == 0 && marshall.currentCar != player.currentCar)) {
+				
+				tr.getTrainCar(player.getCurrentCar ()).getPlatform (level).removePlayer(player.getName());
+				
+				//	System.out.println(player.getName());
+					
+				tr.getTrainCar(player.getCurrentCar ()).getPlatform (changeTo).addPlayer (player);
+				
+				player.updateLevel(changeTo);
+				
+			}
 			
-		//	System.out.println(player.getName());
 			
-			tr.getTrainCar(player.getCurrentCar ()).getPlatform (changeTo).addPlayer (player);
-			
-			player.updateLevel(changeTo);
-			
-			if (marshall.currentCar == player.currentCar && player.currentLevel == 0) {
+			/* if (marshall.currentCar == player.currentCar && player.currentLevel == 0) {
 				
 				player = tr.getTrainCar(player.currentCar).getPlatform(player.currentLevel).removePlayer (player.getName());
 				
@@ -1170,7 +1296,7 @@ public class Round {
 				
 				player.updateLevel(1);
 				
-			}
+			} */
 			
 			
 		} break;
@@ -1204,27 +1330,28 @@ public class Round {
 			}
 			
 		}break; 
+		
+		
 		case "marshall": {
 			
-			System.out.println ("Which way would you like to move the marshall?");
+			System.out.println ("Where would "+player.getName ()+" like to move the marshall?");
 			
 			String dir = "";
 			
-			if (marshall.currentCar != 4 && marshall.currentCar != 0) {
+			if (marshall.currentCar != 0 && marshall.currentCar != 4) {
 				
-				System.out.println ("1.\t 1 left");
-				System.out.println ("2.\t 1 right");
+				System.out.println ("1.\t 1 right\n2.\t 1 left");
 				
-				String in = sc.nextLine ();
+				String temp = sc.nextLine ();
 				
-				if (in.equals("1")) {
+				if (temp.equals ("1")) {
 					
-					dir = "left";
+					dir = "right";
 					
 				}
 				else {
 					
-					dir = "right";
+					dir = "left";
 					
 				}
 				
@@ -1232,15 +1359,17 @@ public class Round {
 			else if (marshall.currentCar == 0) {
 				
 				System.out.println ("1.\t 1 right");
-				sc.nextLine ();
+				
+				String temp = sc.nextLine ();
 				
 				dir = "right";
 				
 			}
-			else {
+			else if (marshall.currentCar == 4) {
 				
 				System.out.println ("1.\t 1 left");
-				sc.nextLine ();
+				
+				String temp = sc.nextLine ();
 				
 				dir = "left";
 				
@@ -1248,9 +1377,9 @@ public class Round {
 			
 			if (dir.equals ("left")) {
 				
-				tr.getTrainCar (marshall.currentCar).getPlatform(marshall.currentLevel).removePlayer ("marshall");
+				tr.getTrainCar(marshall.currentCar).getPlatform (marshall.currentLevel).removePlayer(marshall.getName ());
 				
-				tr.getTrainCar (marshall.currentCar - 1).getPlatform(marshall.currentLevel).addPlayer(marshall);
+				tr.getTrainCar(marshall.currentCar - 1).getPlatform (marshall.currentLevel).addPlayer(marshall);
 				
 				marshall.updateCurrentCar (marshall.currentCar - 1);
 				
@@ -1259,11 +1388,11 @@ public class Round {
 				System.out.println (marshall.currentCar);
 				
 			}
-			else {
+			else if (dir.equals ("right")) {
 				
-				tr.getTrainCar (marshall.currentCar).getPlatform(marshall.currentLevel).removePlayer ("marshall");
+				tr.getTrainCar(marshall.currentCar).getPlatform (marshall.currentLevel).removePlayer(marshall.getName ());
 				
-				tr.getTrainCar (marshall.currentCar + 1).getPlatform(marshall.currentLevel).addPlayer(marshall);
+				tr.getTrainCar(marshall.currentCar + 1).getPlatform (marshall.currentLevel).addPlayer(marshall);
 				
 				marshall.updateCurrentCar (marshall.currentCar + 1);
 				
@@ -1273,24 +1402,17 @@ public class Round {
 				
 			}
 			
-			int currentLoc = marshall.currentCar;
-			
-			int level = 0;
-			
-			if(tr.getTrainCar(currentLoc).getPlatform(level).getCharacterList().size()>1)
-			{
-				for (int x = 0; x<tr.getTrainCar(currentLoc).getPlatform(level).getCharacterList().size(); x++)
-				{
-					if (!tr.getTrainCar(currentLoc).getPlatform(level).getCharacterList().get(x).getName().equals("marshall"))
-					{
-						tr.getTrainCar(currentLoc).getPlatform(level).getCharacterList().get(x).updateLevel(level+1);
-						Character temp = tr.getTrainCar(currentLoc).getPlatform(level).getCharacterList().remove(x);
-						tr.getTrainCar(currentLoc).getPlatform(level+1).addPlayer(temp);
-						hands.get(temp).add(new ActionCard("bullet",null)); // *ACTIONCARD (BULLET CARD) WITH NULL AS CHARACTER IS NEUTRAL CARD!!*
-					}
+			for (int i = 0; i < tr.getTrainCar(marshall.currentCar).getPlatform(0).getCharacterList().size(); i++) {
+				
+				if (!tr.getTrainCar(marshall.currentCar).getPlatform(0).getCharacterList().get (i).equals (marshall)) {
+					
+					Character tempC = tr.getTrainCar(marshall.currentCar).getPlatform(0).getCharacterList().remove (i);
+					
+					tr.getTrainCar(marshall.currentCar).getPlatform(1).addPlayer (tempC);
+					
 				}
+				
 			}
-			
 			
 		} break;
 		
