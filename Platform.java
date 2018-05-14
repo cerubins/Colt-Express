@@ -41,6 +41,12 @@ public class Platform {
 	{
 		for(int i = 0; i < people.size(); i++)
 		{
+			if (name.equals("marshall")) {
+				
+				System.out.println ("SEARCHING");
+				
+			}
+			
 			if(people.get(i).getName().equals(name))
 			{
 				System.out.println("SUCCESS"+people.get(i).getName());

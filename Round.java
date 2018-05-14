@@ -32,6 +32,8 @@ public class Round {
 	
 	private TreeMap<Integer, String> punchSelections = new TreeMap<Integer, String>();
 	
+	Character marshall = new Character ("marshall", 0, 0, 0, 0);
+	
 	private String [] roundCardWhatItDoes;
 	
 	public Round (Train t, ArrayList <Character> c, TreeMap<Character, ArrayList<ActionCard>> h, TreeMap <Character, ArrayList <ActionCard>> bC, TreeMap <Character, ArrayList <ActionCard>> dis, TreeMap <Character, ArrayList <ActionCard>> dra, RoundCard rc) { // NEED TO PASS EVERYTHING IN HERE!!
@@ -60,6 +62,8 @@ public class Round {
 	}
 	
 	public void First () { // PUTS 6 CARDS IN HAND AND 4 IN DRAW PILE, PUT 6 BULLET CARDS FOR EACH CHARACTER (INCLUDING MARSHALL, WHO IS A CHARACTER BUT NOT PLAYABLE)
+		
+		tr.getTrainCar(0).getPlatform(0).addPlayer(marshall);
 		
 		System.out.println(roundCard.getTurns ());
 		
@@ -859,6 +863,16 @@ public class Round {
 						vic.updateCurrentCar(vic.getCurrentCar()-1);
 						
 					}
+					
+					if (marshall.currentCar == vic.currentCar && vic.currentLevel == 0) {
+						
+						vic = tr.getTrainCar(vic.currentCar).getPlatform(vic.currentLevel).removePlayer (vic.getName());
+						
+						tr.getTrainCar (vic.currentCar).getPlatform(1).addPlayer(vic);
+						
+						vic.updateLevel(1);
+						
+					}
 				}
 			}
 			}
@@ -1011,6 +1025,17 @@ public class Round {
 						}
 					
 					}
+					
+					if (marshall.currentCar == victim.currentCar && victim.currentLevel == 0) {
+						
+						victim = tr.getTrainCar(victim.currentCar).getPlatform(victim.currentLevel).removePlayer (victim.getName());
+						
+						tr.getTrainCar (victim.currentCar).getPlatform(1).addPlayer(victim);
+						
+						victim.updateLevel(1);
+						
+					}
+					
 				}
 					
 				}
@@ -1050,7 +1075,15 @@ public class Round {
 					
 				}
 				
-				
+				if (marshall.currentCar == player.currentCar && player.currentLevel == 0) {
+					
+					player = tr.getTrainCar(player.currentCar).getPlatform(player.currentLevel).removePlayer (player.getName());
+					
+					tr.getTrainCar (player.currentCar).getPlatform(1).addPlayer(player);
+					
+					player.updateLevel(1);
+					
+				}
 				
 			}
 			else {
@@ -1129,6 +1162,17 @@ public class Round {
 			
 			player.updateLevel(changeTo);
 			
+			if (marshall.currentCar == player.currentCar && player.currentLevel == 0) {
+				
+				player = tr.getTrainCar(player.currentCar).getPlatform(player.currentLevel).removePlayer (player.getName());
+				
+				tr.getTrainCar (player.currentCar).getPlatform(1).addPlayer(player);
+				
+				player.updateLevel(1);
+				
+			}
+			
+			
 		} break;
 		case "loot":
 		{
@@ -1160,112 +1204,79 @@ public class Round {
 			}
 			
 		}break; 
-		case "marshall": { // NEED TO FIX BY CHECKING IF OTHER CHARACTERS IN SAME ROOM AS MARSHALL AND MOVING THEM TO THE ROOF
+		case "marshall": {
 			
-			int currentLoc = 0;
+			System.out.println ("Which way would you like to move the marshall?");
+			
+			String dir = "";
+			
+			if (marshall.currentCar != 4 && marshall.currentCar != 0) {
+				
+				System.out.println ("1.\t 1 left");
+				System.out.println ("2.\t 1 right");
+				
+				String in = sc.nextLine ();
+				
+				if (in.equals("1")) {
+					
+					dir = "left";
+					
+				}
+				else {
+					
+					dir = "right";
+					
+				}
+				
+			}
+			else if (marshall.currentCar == 0) {
+				
+				System.out.println ("1.\t 1 right");
+				sc.nextLine ();
+				
+				dir = "right";
+				
+			}
+			else {
+				
+				System.out.println ("1.\t 1 left");
+				sc.nextLine ();
+				
+				dir = "left";
+				
+			}
+			
+			if (dir.equals ("left")) {
+				
+				tr.getTrainCar (marshall.currentCar).getPlatform(marshall.currentLevel).removePlayer ("marshall");
+				
+				tr.getTrainCar (marshall.currentCar - 1).getPlatform(marshall.currentLevel).addPlayer(marshall);
+				
+				marshall.updateCurrentCar (marshall.currentCar - 1);
+				
+				System.out.println ("LEFT");
+				
+				System.out.println (marshall.currentCar);
+				
+			}
+			else {
+				
+				tr.getTrainCar (marshall.currentCar).getPlatform(marshall.currentLevel).removePlayer ("marshall");
+				
+				tr.getTrainCar (marshall.currentCar + 1).getPlatform(marshall.currentLevel).addPlayer(marshall);
+				
+				marshall.updateCurrentCar (marshall.currentCar + 1);
+				
+				System.out.println ("RIGHT");
+				
+				System.out.println (marshall.currentCar);
+				
+			}
+			
+			int currentLoc = marshall.currentCar;
 			
 			int level = 0;
 			
-			for (int i = 0; i < tr.getTrain().size(); i++) {
-									
-				ArrayList<Character> c0 = tr.getTrainCar(i).getPlatform(0).getCharacterList();
-									
-				for (int j = 0; j < c0.size (); j++) {
-					
-					if (c0.get (j).getName().equals ("marshall")) {
-						
-						currentLoc = i;
-	
-						level = 0;
-						
-						break;
-					}
-					
-				}
-				
-			
-					
-				
-				
-			}
-			
-			Character marshall = tr.getTrainCar (currentLoc).getPlatform (level).removePlayer ("marshall");
-			
-			// ASK PLAYER FOR DIRECTION TO MOVE MARSHALL, PUT "LEFT" OR "RIGHT" (FORWARD OR BACKWARD RESPECTIVELY) (LOWERCASE) IN STRING d
-			
-			out.println("Which way would "+player.getName ()+" like to move the Marshall?");
-			
-			String d = "";
-			
-			if (marshall.getCurrentCar () >= 1 && marshall.getCurrentCar () <= 3) {
-				
-				out.println ("1. 1 left");
-				out.println ("2. 1 right");
-				String str1 = sc.nextLine ();
-				
-				if (str1.equals ("1")) {
-					
-					d = "left";
-					
-				}
-				else {
-					
-					d = "right";
-					
-				}
-				
-			}
-			else if (marshall.getCurrentCar () <= 3) {
-				
-				out.println ("1. 1 right");
-				String str1 = sc.nextLine ();
-				
-				if (str1.equals ("1")) {
-					
-					d = "right";
-					
-				}
-				else {
-					
-					d = "right";
-					
-				}
-				
-			}
-			else if (marshall.getCurrentCar () >= 1) {
-				
-				out.println ("1. 1 left");
-				String str1 = sc.nextLine ();
-				
-				if (str1.equals ("1")) {
-					
-					d = "left";
-					
-				}
-				else {
-					
-					d = "left";
-					
-				}
-				
-			}
-			
-			if (d.equals("left") && currentLoc - 1 >= 0) {
-				
-				tr.getTrainCar (currentLoc - 1).getPlatform(level).addPlayer(marshall);
-				
-				marshall.updateCurrentCar (currentLoc - 1);
-				currentLoc= currentLoc-1;
-				
-			}
-			else if (d.equals("right") && currentLoc + 1 >= 0 && currentLoc + 1 <= 4) {
-				
-				tr.getTrainCar (currentLoc + 1).getPlatform(level).addPlayer(marshall);
-				
-				marshall.updateCurrentCar (currentLoc + 1);
-				currentLoc= currentLoc+1;
-				
-			}
 			if(tr.getTrainCar(currentLoc).getPlatform(level).getCharacterList().size()>1)
 			{
 				for (int x = 0; x<tr.getTrainCar(currentLoc).getPlatform(level).getCharacterList().size(); x++)
@@ -1279,6 +1290,7 @@ public class Round {
 					}
 				}
 			}
+			
 			
 		} break;
 		

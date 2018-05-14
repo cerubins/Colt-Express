@@ -153,15 +153,30 @@ public class Character extends Player implements Comparable {
 		int sum = 0;
 		for (int y = 0; y<getRubies().size(); y++)
 		{
-			sum+=getRubies().get(y).getAmount();
+			try {
+				sum+=getRubies().get(y).getAmount();
+			}
+			catch (NullPointerException e) {
+				
+			}
 		}
 		for (int y = 0; y<getBags().size(); y++)
 		{
-			sum+=getBags().get(y).getAmount();
+			try {
+				sum+=getBags().get(y).getAmount();
+			}
+			catch (NullPointerException e) {
+				
+			}
 		}
 		for (int y = 0; y<getLockboxes().size(); y++)
 		{
-			sum+=getLockboxes().get(y).getAmount();
+			try {
+				sum+=getLockboxes().get(y).getAmount();
+			}
+			catch (NullPointerException e) {
+				
+			}
 		}
 		return sum;
 	}

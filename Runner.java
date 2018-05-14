@@ -56,7 +56,7 @@ public class Runner {
 			
 		}
 		
-		mainTrain.getTrainCar(0).getPlatform(0).addPlayer(new Character ("marshall", 0, 0, 0, 0));
+		//mainTrain.getTrainCar(0).getPlatform(0).addPlayer(new Character ("marshall", 0, 0, 0, 0));
 		
 		finalchar.add(new Character("marshall", 0, 0, 0, 0));
 		
@@ -67,7 +67,7 @@ public class Runner {
 		round.First();
 		
 		round.playRound();
-		
+				
 		do
 		{
 			finalchar.add(finalchar.remove(0));
@@ -84,7 +84,6 @@ public class Runner {
 			
 		}
 		while (!round.getRoundCard ().getIsStopCard ());
-		
 	
 		EndGame eg = new EndGame(finalchar);
 		TreeMap<Integer, ArrayList<Character>> rankings = eg.getResults();
