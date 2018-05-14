@@ -68,9 +68,7 @@ public class Runner {
 		
 		round.playRound();
 		
-		boolean toStop = false;
-		
-		while (!toStop) 
+		do
 		{
 			finalchar.add(finalchar.remove(0));
 			
@@ -78,22 +76,14 @@ public class Runner {
 			
 			RoundCard r = roundCardList.get (0);
 			
-			if (!r.getIsStopCard ()) {
-				
-				round = new Round(mainTrain, finalchar, hands, bulletCards, discard, draw, r);
-				
-				round.startOfRound();
+			round = new Round(mainTrain, finalchar, hands, bulletCards, discard, draw, r);
 			
-				round.playRound();
+			round.startOfRound();
+		
+			round.playRound();
 			
-			}
-			else {
-				
-				break;
-				
-			}
-	
 		}
+		while (!round.getRoundCard ().getIsStopCard ());
 		
 	
 		EndGame eg = new EndGame(finalchar);
