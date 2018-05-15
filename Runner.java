@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 import java.util.TreeMap;
 
@@ -17,17 +18,7 @@ public class Runner {
 	
 	private static TreeMap <Character, ArrayList <ActionCard>> draw = new TreeMap <Character, ArrayList <ActionCard>> ();
 	
-
-	public static void main(String[] args)
-	{
-		
-		RoundCardSelector rs = new RoundCardSelector ();
-		
-		ArrayList <RoundCard> roundCardList = rs.select ();
-		
-		Train mainTrain = new Train();
-		
-		fillOutNames();
+	public static void selectCharacters (Train mainTrain) {
 		
 		for(int i = 0; i < 4; i++)
 		{
@@ -55,6 +46,70 @@ public class Runner {
 			mainTrain.getTrainCar(pos).getPlatform(0).addPlayer(created);
 			
 		}
+		
+	}
+	
+	public static void randomCharacters (Train mainTrain) {
+		
+		ArrayList <Character> posibilities = new ArrayList <Character> ();
+		
+		for (int i = 0; i < 6; i++) {
+			
+			posibilities.add (new Character (characterNames.get (i), randomPos (), 0, 0, 0));
+			
+		}
+		
+		Collections.shuffle (posibilities);
+		
+		posibilities.remove (posibilities.size () - 1);
+		
+		posibilities.remove (posibilities.size () - 1);
+		
+		for (int i = 0; i < posibilities.size (); i++) {
+			
+			finalchar.add (posibilities.get(i));
+			
+			System.out.print (posibilities.get(i).getName () + " is inserted ");
+			
+			if (posibilities.get(i).getCurrentCar() == 4) {
+				
+				System.out.println (" in the caboose");
+				
+			}
+			else {
+				
+				System.out.println (" in front of the caboose");
+				
+			}
+			
+			mainTrain.getTrainCar (posibilities.get(i).getCurrentCar()).getPlatform(0).addPlayer(posibilities.get(i));
+			
+		}
+		
+	}
+	
+	private static int randomPos () {
+		
+		return (int)(Math.random () * 2 + 3);
+		
+	}
+
+	public static void main(String[] args)
+	{
+		
+		RoundCardSelector rs = new RoundCardSelector ();
+		
+		ArrayList <RoundCard> roundCardList = rs.select ();
+		
+		Train mainTrain = new Train();
+		
+		fillOutNames();
+		
+		// selectCharacters (mainTrain);
+		
+		randomCharacters (mainTrain);
+		
+		
 		
 		//mainTrain.getTrainCar(0).getPlatform(0).addPlayer(new Character ("marshall", 0, 0, 0, 0));
 		
@@ -123,3 +178,4 @@ public class Runner {
 	}
 	
 }
+
