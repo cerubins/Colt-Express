@@ -5,6 +5,7 @@ import java.util.Queue;
 import java.util.Stack;
 import java.util.TreeMap;
 import java.util.Scanner;
+import java.util.TreeSet;
 
 import static java.lang.System.*;
 
@@ -371,6 +372,36 @@ public class Round {
 		
 		endRoundRoundCardSwitchCases ();
 				
+	}
+	
+	public void removeDuplicates () {
+		
+		// remove all characters and put them in treemap as keys, then take keyset and reinsert in currentcar currentlevel
+		
+		TreeSet <Character> set = new TreeSet <Character> ();
+		
+		for (int i = 0; i < tr.getTrain ().size (); i++) {
+			
+			for (int j = 0; j < tr.getTrainCar (i).getPlatform(0).getCharacterList().size (); j++) {
+				
+				set.add(tr.getTrainCar (i).getPlatform(0).getCharacterList().remove(j));
+				
+			}
+			
+			for (int j = 0; j < tr.getTrainCar (i).getPlatform(1).getCharacterList().size (); j++) {
+				
+				set.add(tr.getTrainCar (i).getPlatform(1).getCharacterList().remove(j));
+				
+			}
+			
+		}
+		
+		for (Character c : set) {
+			
+			tr.getTrainCar(c.currentCar).getPlatform(c.currentLevel).addPlayer(c);
+			
+		}
+		
 	}
 	
 	public ActionCard chooseToPlayCard (Character player) {
@@ -878,6 +909,15 @@ public class Round {
 	}
 	
 	public void action(ActionCard card, Character player){ // LEFT IS FORWARD, RIGHT IS BACKWARD
+		
+		try {
+			removeDuplicates ();
+		}
+		catch (NullPointerException | IndexOutOfBoundsException e) {
+			
+			
+			
+		}
 		int car = player.getCurrentCar();
 		switch(card.getWhatItDoes()){
 		case "punch": {
@@ -1422,3 +1462,4 @@ public class Round {
 	
 	
 }
+
